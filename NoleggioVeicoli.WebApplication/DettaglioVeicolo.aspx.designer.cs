@@ -11,7 +11,7 @@ namespace NoleggioVeicoli.WebApplication
 {
 
 
-    public partial class DettaglioVeicolo1
+    public partial class DettaglioVeicolo
     {
 
         /// <summary>

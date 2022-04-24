@@ -9,9 +9,9 @@ namespace NoleggioVeicoloApplication.Business.Models
     public class RicercaVeicoloModel
     {
         public int IdMarca { get; set; }
-        public string Marca { get; set; }
         public string Modello { get; set; }
         public string Targa { get; set; }
+        public int? IdTipoAlimentazione { get; set; }
         public DateTime? DataImmatricolazione { get; set; }
         public string StatoNoleggio { get; set; }
     }

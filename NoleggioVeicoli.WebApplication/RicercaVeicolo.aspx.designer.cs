@@ -51,6 +51,15 @@ namespace NoleggioVeicoli.WebApplication
         protected global::System.Web.UI.WebControls.TextBox txtTarga;
 
         /// <summary>
+        /// ddlTipoAlimentazione control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlTipoAlimentazione;
+
+        /// <summary>
         /// txtDataImmatricolazione control.
         /// </summary>
         /// <remarks>
@@ -114,13 +123,13 @@ namespace NoleggioVeicoli.WebApplication
         protected global::System.Web.UI.WebControls.Calendar dataImmatricolazione2;
 
         /// <summary>
-        /// dataLabal control.
+        /// dataLabal2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label dataLabal;
+        protected global::System.Web.UI.WebControls.Label dataLabal2;
 
         /// <summary>
         /// ddlStatoNoleggio control.

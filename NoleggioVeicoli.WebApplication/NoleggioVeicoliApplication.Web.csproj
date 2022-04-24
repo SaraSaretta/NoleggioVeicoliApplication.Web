@@ -163,7 +163,8 @@
     <Content Include="Scripts\WebForms\WebParts.js" />
     <Content Include="Scripts\WebForms\WebUIValidation.js" />
     <Content Include="Site.Master" />
-    <Content Include="Veicolo.aspx" />
+    <Content Include="VeicoloNoleggiato.aspx" />
+    <Content Include="VeicoloNonNoleggiato.aspx" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config" />
     <Content Include="Bundle.config" />
@@ -251,12 +252,19 @@
     <Compile Include="Site.Mobile.Master.designer.cs">
       <DependentUpon>Site.Mobile.Master</DependentUpon>
     </Compile>
-    <Compile Include="Veicolo.aspx.cs">
-      <DependentUpon>Veicolo.aspx</DependentUpon>
+    <Compile Include="VeicoloNoleggiato.aspx.cs">
+      <DependentUpon>VeicoloNoleggiato.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Veicolo.aspx.designer.cs">
-      <DependentUpon>Veicolo.aspx</DependentUpon>
+    <Compile Include="VeicoloNoleggiato.aspx.designer.cs">
+      <DependentUpon>VeicoloNoleggiato.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VeicoloNonNoleggiato.aspx.cs">
+      <DependentUpon>VeicoloNonNoleggiato.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VeicoloNonNoleggiato.aspx.designer.cs">
+      <DependentUpon>VeicoloNonNoleggiato.aspx</DependentUpon>
     </Compile>
     <Compile Include="ViewSwitcher.ascx.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>

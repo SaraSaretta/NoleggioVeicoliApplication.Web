@@ -7,12 +7,30 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace NoleggioVeicoli.WebApplication.Controls
+namespace NoleggioVeicoli.WebApplication
 {
 
 
-    public partial class VeicoloControl
+    public partial class VeicoloNonNoleggiato
     {
+
+        /// <summary>
+        /// pnlNonNoleggiato control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlNonNoleggiato;
+
+        /// <summary>
+        /// pnlHeadNonNoleggiato control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlHeadNonNoleggiato;
 
         /// <summary>
         /// txtMarca control.
@@ -42,57 +60,21 @@ namespace NoleggioVeicoli.WebApplication.Controls
         protected global::System.Web.UI.WebControls.TextBox txtTarga;
 
         /// <summary>
-        /// txtDataImmatricolazione control.
+        /// txtCliente control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDataImmatricolazione;
+        protected global::System.Web.UI.WebControls.TextBox txtCliente;
 
         /// <summary>
-        /// txtAlimentazione control.
+        /// btnNoleggiaVeicolo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtAlimentazione;
-
-        /// <summary>
-        /// txtStatoNoleggio control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtStatoNoleggio;
-
-        /// <summary>
-        /// txtNote control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtNote;
-
-        /// <summary>
-        /// btnModifica control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnModifica;
-
-        /// <summary>
-        /// btnDelete control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnDelete;
+        protected global::System.Web.UI.WebControls.Button btnNoleggiaVeicolo;
     }
 }
