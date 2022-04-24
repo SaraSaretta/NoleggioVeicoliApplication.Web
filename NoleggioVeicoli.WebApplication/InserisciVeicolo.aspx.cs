@@ -15,11 +15,9 @@ namespace NoleggioVeicoli.WebApplication
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+
             if (!IsPostBack)
             {
-                
-                
                 VeicoloManager veicoloManager = new VeicoloManager(Properties.Settings.Default.Safo2022);
 
                 List<TipoAlimentazioneModel> tipoAlimentazioneList = veicoloManager.GetTipoAlimentazione();
@@ -37,17 +35,12 @@ namespace NoleggioVeicoli.WebApplication
                 ddlMarca.DataTextField = "Marca";
                 ddlMarca.DataBind();
                 ddlMarca.Items.Insert(0, new ListItem("Seleziona", "-1"));
-
-               
-
             }
         }
-       
         protected void btnInserisci_Click(object sender, EventArgs e)
         {
             if (!IsFormValido())
             {
-                //Visualizzo un messaggio di errore
                 infoControl.SetMessage(WebApplication.Controls.InfoControl.TipoMessaggio.Danger, "Il form non è valido, Inserisci tutti record,per favore!");
                 return;
             }
@@ -70,7 +63,7 @@ namespace NoleggioVeicoli.WebApplication
                 veicoloModel.Note = txtNote.Text;
 
                 bool isVeicoloInserita = veicoloManager.InsertVeicolo(veicoloModel);
-                infoControl.SetMessage(WebApplication.Controls.InfoControl.TipoMessaggio.Success, "Il veicolo è stato inserito ");
+                infoControl.SetMessage(WebApplication.Controls.InfoControl.TipoMessaggio.Success, "Il veicolo è stato inserito correttamente");
 
             }
         }
@@ -108,11 +101,7 @@ namespace NoleggioVeicoli.WebApplication
         }
         protected void dataImmatricolazione_SelectionChanged(object sender, EventArgs e)
         {
-            // Cancello se già è pieno
             txtDataImmatricolazione.Text = "";
-
-            // Scorri la raccolta SelectedDates e visualizza il file
-            // date selezionate nel controllo Calendar.
             foreach (DateTime day in dataImmatricolazione.SelectedDates)
             {
                 txtDataImmatricolazione.Text += day.Date.ToShortDateString();
@@ -120,19 +109,17 @@ namespace NoleggioVeicoli.WebApplication
         }
         protected void btnData_Click(object sender, EventArgs e)
         {
-            if (dataImmatricolazione.Visible==false)
+            if (dataImmatricolazione.Visible == false)
             {
                 dataImmatricolazione.Visible = true;
             }
             var veicoloModel = new VeicoloModel();
-
             DateTime dateTimeResult;
             var okParse = DateTime.TryParse(txtDataImmatricolazione.Text, out dateTimeResult);
             if (okParse)
             {
                 veicoloModel.DataImmatricolazione = dateTimeResult;
             }
-
         }
     }
 }

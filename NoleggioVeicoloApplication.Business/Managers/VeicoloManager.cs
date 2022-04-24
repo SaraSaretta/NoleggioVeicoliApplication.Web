@@ -185,64 +185,31 @@ namespace NoleggioVeicoloApplication.Business.Managers
             if (ricercaVeicoloModel.IdMarca >= 0)
             {
                 sb.AppendLine("AND IdMarca=@IdMarca ");
-
             }
             if (!string.IsNullOrEmpty(ricercaVeicoloModel.Modello))
             {
                 sb.AppendLine("AND Modello LIKE  '%' +@Modello +'%'");
             }
-
             if (!string.IsNullOrEmpty(ricercaVeicoloModel.Targa))
             {
                 sb.AppendLine("AND Targa LIKE '%' +@Targa +'%' ");
             }
-
             if (ricercaVeicoloModel.IdTipoAlimentazione >= 0)
             {
                 sb.AppendLine("AND IdAlimentazione=@IdAlimentazione ");
             }
-
             if (!string.IsNullOrEmpty(ricercaVeicoloModel.StatoNoleggio)&&((ricercaVeicoloModel.StatoNoleggio.Equals("Si")|| (ricercaVeicoloModel.StatoNoleggio.Equals("No")))))
             {
                 sb.AppendLine("And StatoNoleggio = @StatoNoleggio");
             }
-
-            //if (ricercaVeicoloModel.Modello.Length >= 3)
-            //{
-            //    sb.AppendLine("AND Modello LIKE '%" + ricercaVeicoloModel.Modello + "%' ");
-            //}
-
-            //if (!string.IsNullOrEmpty(ricercaVeicoloModel.Targa))
-            //{
-            //    sb.AppendLine("AND Targa LIKE '%" + ricercaVeicoloModel.Targa + "%' ");
-            //}
-            //if(ricercaVeicoloModel.IdTipoAlimentazione>= 0 )
-            //{
-            //    sb.AppendLine("AND IdAlimentazione=@IdAlimentazione ");
-            //}
-
-
-            //if (ricercaVeicoloModel.IdMarca != -1)
-            //{
-            //    sb.AppendLine("AND IdMarca = " + ricercaVeicoloModel.IdMarca + " ");
-            //}
-            //if (ricercaVeicoloModel.Modello.Length >=3)
-            //{
-            //    sb.AppendLine("AND Modello LIKE '%" + ricercaVeicoloModel.Modello + "%' ");
-            //}
-
-            //if (ricercaVeicoloModel.DataImmatricolazione.HasValue)
-            //{
-            //    sb.AppendLine("AND DataImmatricolazione = " + ricercaVeicoloModel.DataImmatricolazione + " ");
-            //}
-
-            //if (!string.IsNullOrEmpty(ricercaVeicoloModel.Targa))
-            //{
-            //    sb.AppendLine("AND Targa LIKE '%" + ricercaVeicoloModel.Targa + "%' ");
-            //}
-
-
-
+            if (ricercaVeicoloModel.DataImmatricolazioneInizio.HasValue)
+            {
+                sb.AppendLine("AND DataImmatricolazione >=@DataImmatricolazioneInizio " );
+            }
+            if (ricercaVeicoloModel.DataImmatricolazioneFine.HasValue)
+            {
+                sb.AppendLine("AND DataImmatricolazione <=@DataImmatricolazioneFine ");
+            }
             var dataSet = new DataSet();
             using (SqlConnection sqlConnection = new SqlConnection(this.ConnectionString))
             {
@@ -253,14 +220,17 @@ namespace NoleggioVeicoloApplication.Business.Managers
                     {
                         sqlCommand.Parameters.AddWithValue("@IdMarca", ricercaVeicoloModel.IdMarca);
                     }
-
                     if (!string.IsNullOrEmpty(ricercaVeicoloModel.Modello))
                     {
                         sqlCommand.Parameters.AddWithValue("@Modello", ricercaVeicoloModel.Modello);
                     }
-                    if (ricercaVeicoloModel.DataImmatricolazione.HasValue)
+                    if (ricercaVeicoloModel.DataImmatricolazioneInizio.HasValue)
                     {
-                        sqlCommand.Parameters.AddWithValue("@DataImmatricolazione", ricercaVeicoloModel.DataImmatricolazione);
+                        sqlCommand.Parameters.AddWithValue("@DataImmatricolazioneInizio", ricercaVeicoloModel.DataImmatricolazioneInizio);
+                    }
+                    if (ricercaVeicoloModel.DataImmatricolazioneFine.HasValue)
+                    {
+                        sqlCommand.Parameters.AddWithValue("@DataImmatricolazioneFine", ricercaVeicoloModel.DataImmatricolazioneFine);
                     }
                     if (ricercaVeicoloModel.IdTipoAlimentazione.HasValue)
                     {
@@ -270,11 +240,11 @@ namespace NoleggioVeicoloApplication.Business.Managers
                     {
                         sqlCommand.Parameters.AddWithValue("@Targa", ricercaVeicoloModel.Targa);
                     }
-
                     if (!string.IsNullOrEmpty(ricercaVeicoloModel.StatoNoleggio) && ((ricercaVeicoloModel.StatoNoleggio.Equals("Si") || (ricercaVeicoloModel.StatoNoleggio.Equals("No")))))
                     {
                         sqlCommand.Parameters.AddWithValue("@StatoNoleggio", ricercaVeicoloModel.StatoNoleggio);
                     }
+                   
                     using (var sqlDataAdapter = new SqlDataAdapter(sqlCommand))
                     {
                         sqlDataAdapter.SelectCommand = sqlCommand;
@@ -316,6 +286,7 @@ namespace NoleggioVeicoloApplication.Business.Managers
             sb.AppendLine(",[IdAlimentazione]");
             sb.AppendLine(",SATipoAlimentazione.[Alimentazione]");
             sb.AppendLine(",[StatoNoleggio]");
+            sb.AppendLine(",[Note]");
             sb.AppendLine("FROM [dbo].[SAVeicoli]");
             sb.AppendLine("LEFT JOIN SATipoAlimentazione on SAVeicoli.IdAlimentazione=SATipoAlimentazione.Id");
             sb.AppendLine("LEFT JOIN SAMarche on SAVeicoli.IdMarca=SAMarche.Id");
@@ -348,6 +319,7 @@ namespace NoleggioVeicoloApplication.Business.Managers
                         veicoloModel.IdTipoAlimentazione = row.Field<int>("IdAlimentazione");
                         veicoloModel.TipoAlimentazione = row.Field<string>("Alimentazione");
                         veicoloModel.StatoNoleggio = row.Field<string>("StatoNoleggio");
+                        veicoloModel.Note = row.Field<string>("Note");
 
                     }
                     return veicoloModel;
@@ -383,21 +355,22 @@ namespace NoleggioVeicoloApplication.Business.Managers
                     {
                         sqlCommand.Parameters.AddWithValue("@IdMarca", DBNull.Value);
                     }
-                    if (string.IsNullOrEmpty(veicoloModel.Modello))
-                    {
-                        sqlCommand.Parameters.AddWithValue("@Modello", DBNull.Value);
-                    }
-                    else
+                    if (!string.IsNullOrEmpty(veicoloModel.Modello))
                     {
                         sqlCommand.Parameters.AddWithValue("@Modello", veicoloModel.Modello);
                     }
-                    if (string.IsNullOrEmpty(veicoloModel.Targa))
+                    else
                     {
-                        sqlCommand.Parameters.AddWithValue("@Targa", DBNull.Value);
+                        sqlCommand.Parameters.AddWithValue("@Modello", DBNull.Value);
+                    }
+                    if (!string.IsNullOrEmpty(veicoloModel.Targa))
+                    {
+                        sqlCommand.Parameters.AddWithValue("@Targa", veicoloModel.Targa);
                     }
                     else
                     {
-                        sqlCommand.Parameters.AddWithValue("@Targa", veicoloModel.Targa);
+                        sqlCommand.Parameters.AddWithValue("@Targa", DBNull.Value);
+
                     }
                     if (veicoloModel.DataImmatricolazione.HasValue)
                     {
@@ -415,13 +388,15 @@ namespace NoleggioVeicoloApplication.Business.Managers
                     {
                         sqlCommand.Parameters.AddWithValue("@IdAlimentazione", DBNull.Value);
                     }
-                    if (string.IsNullOrEmpty(veicoloModel.Note))
+                    if (!string.IsNullOrEmpty(veicoloModel.Note))
                     {
-                        sqlCommand.Parameters.AddWithValue("@Note", DBNull.Value);
+                        sqlCommand.Parameters.AddWithValue("@Note", veicoloModel.Note);
+
                     }
                     else
                     {
-                        sqlCommand.Parameters.AddWithValue("@Note", veicoloModel.Note);
+                        sqlCommand.Parameters.AddWithValue("@Note", DBNull.Value);
+
                     }
                     var numRigheModificate = sqlCommand.ExecuteNonQuery();
                 }

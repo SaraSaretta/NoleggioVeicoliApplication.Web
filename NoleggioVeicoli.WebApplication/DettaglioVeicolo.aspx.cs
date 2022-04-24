@@ -16,12 +16,14 @@ namespace NoleggioVeicoli.WebApplication
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            int? idVeicolo = null;
-            if (Session["id"] != null)
+            if (IsPostBack)
             {
-                idVeicolo = Convert.ToInt32(Session["id"]);
-                veicoloControl.SetVeicolo(idVeicolo);
+                return;
             }
+
+            int idVeicolo = Convert.ToInt32(Session["id"]);
+            veicoloControl.SetVeicolo(idVeicolo);
+
         }
         protected void btnIndietro_Click(object sender, EventArgs e)
         {
@@ -38,16 +40,14 @@ namespace NoleggioVeicoli.WebApplication
             }
             var indexVeicoloPrecedente = indexCorrente - 1;
             var veicoloPrecedente = listaVeicolo[indexVeicoloPrecedente];
-            btnAvanti.Enabled = true;
+            btnIndietro.Enabled = true;
             if (indexVeicoloPrecedente == 0)
             {
                 btnIndietro.Enabled = false;
-
             }
             else
             {
                 btnIndietro.Enabled = true;
-
             }
             //aggiorna dati pagina
             veicoloControl.SetVeicolo(veicoloPrecedente.Id);
@@ -68,13 +68,13 @@ namespace NoleggioVeicoli.WebApplication
             var indexVeicoloSuccessivo = indexCorrente + 1;
             var veicoloSuccessivo = listaVeicolo[indexVeicoloSuccessivo];
             btnAvanti.Enabled = true;
-            if (indexVeicoloSuccessivo == 0)
+            if (indexVeicoloSuccessivo == listaVeicolo.Count - 1)
             {
-                btnIndietro.Enabled = false;
+                btnAvanti.Enabled = false;
             }
             else
             {
-                btnIndietro.Enabled = true;
+                btnAvanti.Enabled = true;
             }
             //aggiorna dati pagina
             veicoloControl.SetVeicolo(veicoloSuccessivo.Id);
@@ -89,6 +89,11 @@ namespace NoleggioVeicoli.WebApplication
             if (e.Messaggio.Equals("Il veicolo non può essere eliminato"))
             {
                 infoControl.SetMessage(WebApplication.Controls.InfoControl.TipoMessaggio.Warning, e.Messaggio);
+            }
+            if (e.Messaggio.Equals("Il veicolo è stato modificato con successo!"))
+            {
+                infoControl.SetMessage(WebApplication.Controls.InfoControl.TipoMessaggio.Success, e.Messaggio);
+
             }
         }
 

@@ -49,13 +49,20 @@ namespace NoleggioVeicoli.WebApplication
             ricercaVeicoloModel.Targa = txtTarga.Text;
             ricercaVeicoloModel.IdTipoAlimentazione = int.Parse(ddlTipoAlimentazione.SelectedValue);
             DateTime dateTimeResult;
-            var okParse = DateTime.TryParse(txtDataImmatricolazione.Text, out dateTimeResult);
+            var okParse = DateTime.TryParse(txtDataImmatricolazioneInizio.Text, out dateTimeResult);
             if (okParse)
             {
-                ricercaVeicoloModel.DataImmatricolazione = dateTimeResult;
+                ricercaVeicoloModel.DataImmatricolazioneInizio = dateTimeResult;
+            }
+
+            DateTime dateTimeResult2;
+            var okParse2 = DateTime.TryParse(txtDataImmatricolazioneFine.Text, out dateTimeResult2);
+            if (okParse2)
+            {
+                ricercaVeicoloModel.DataImmatricolazioneFine = dateTimeResult2;
             }
             ricercaVeicoloModel.StatoNoleggio = ddlStatoNoleggio.SelectedValue;
-            
+
             var veicoloManager = new VeicoloManager(Settings.Default.Safo2022);
             var listVeicoloModel = veicoloManager.RicercaVeicolo(ricercaVeicoloModel);
             //metto i dati nella session in modo da poterli recuperare in altra parte
@@ -66,31 +73,26 @@ namespace NoleggioVeicoli.WebApplication
         protected void btnDataDA_Click(object sender, EventArgs e)
         {
 
-            if (dataImmatricolazione.Visible == false)
+            if (dataImmatricolazioneInizio.Visible == false)
             {
-                dataImmatricolazione.Visible = true;
+                dataImmatricolazioneInizio.Visible = true;
             }
-            txtDataImmatricolazione.Text = "";
-            // Scorri la raccolta SelectedDates e visualizza il file
-            // date selezionate nel controllo Calendar.
-            foreach (DateTime day in dataImmatricolazione.SelectedDates)
+            txtDataImmatricolazioneInizio.Text = "";
+            foreach (DateTime day in dataImmatricolazioneInizio.SelectedDates)
             {
-                txtDataImmatricolazione.Text += day.Date.ToShortDateString();
+                txtDataImmatricolazioneInizio.Text += day.Date.ToShortDateString();
             }
         }
         protected void btnDataA_Click(object sender, EventArgs e)
         {
-            if (dataImmatricolazione2.Visible == false)
+            if (dataImmatricolazioneFine.Visible == false)
             {
-                dataImmatricolazione2.Visible = true;
+                dataImmatricolazioneFine.Visible = true;
             }
-            // Clear the current text.
-            txtDataImmatricolazione2.Text = "";
-            // Iterate through the SelectedDates collection and display the
-            // dates selected in the Calendar control.
-            foreach (DateTime day in dataImmatricolazione2.SelectedDates)
+            txtDataImmatricolazioneFine.Text = "";
+            foreach (DateTime day in dataImmatricolazioneFine.SelectedDates)
             {
-                txtDataImmatricolazione2.Text += day.Date.ToShortDateString();
+                txtDataImmatricolazioneFine.Text += day.Date.ToShortDateString();
             }
         }
         protected void BtnClear_Click(object sender, EventArgs e)
@@ -98,33 +100,31 @@ namespace NoleggioVeicoli.WebApplication
             ddlMarca.SelectedIndex = 0;
             txtModello.Text = string.Empty;
             txtTarga.Text = string.Empty;
+            ddlTipoAlimentazione.SelectedIndex = 0;
             ddlStatoNoleggio.SelectedIndex = 0;
-            txtDataImmatricolazione.Text = string.Empty;
-            txtDataImmatricolazione2.Text = string.Empty;
+            txtDataImmatricolazioneInizio.Text = string.Empty;
+            txtDataImmatricolazioneFine.Text = string.Empty;
         }
         protected void dataImmatricolazione_SelectionChanged(object sender, EventArgs e)
         {
             // Cancello se già è pieno
-            txtDataImmatricolazione.Text = "";
+            txtDataImmatricolazioneInizio.Text = "";
 
             // Scorri la raccolta SelectedDates e visualizza il file
             // date selezionate nel controllo Calendar.
-            foreach (DateTime day in dataImmatricolazione.SelectedDates)
+            foreach (DateTime day in dataImmatricolazioneInizio.SelectedDates)
             {
-                txtDataImmatricolazione.Text += day.Date.ToShortDateString();
+                txtDataImmatricolazioneInizio.Text += day.Date.ToShortDateString();
             }
 
         }
         protected void dataImmatricolazione2_SelectionChanged(object sender, EventArgs e)
         {
-            // Cancello se già è pieno
-            txtDataImmatricolazione2.Text = "";
 
-            // Scorri la raccolta SelectedDates e visualizza il file
-            // date selezionate nel controllo Calendar.
-            foreach (DateTime day in dataImmatricolazione2.SelectedDates)
+            txtDataImmatricolazioneFine.Text = "";
+            foreach (DateTime day in dataImmatricolazioneFine.SelectedDates)
             {
-                txtDataImmatricolazione2.Text += day.Date.ToShortDateString();
+                txtDataImmatricolazioneFine.Text += day.Date.ToShortDateString();
             }
 
         }

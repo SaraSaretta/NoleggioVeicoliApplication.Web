@@ -60,15 +60,6 @@ namespace NoleggioVeicoli.WebApplication
         protected global::System.Web.UI.WebControls.DropDownList ddlTipoAlimentazione;
 
         /// <summary>
-        /// txtDataImmatricolazione control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDataImmatricolazione;
-
-        /// <summary>
         /// btnDataDA control.
         /// </summary>
         /// <remarks>
@@ -78,13 +69,13 @@ namespace NoleggioVeicoli.WebApplication
         protected global::System.Web.UI.WebControls.Button btnDataDA;
 
         /// <summary>
-        /// dataImmatricolazione control.
+        /// dataImmatricolazioneInizio control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Calendar dataImmatricolazione;
+        protected global::System.Web.UI.WebControls.Calendar dataImmatricolazioneInizio;
 
         /// <summary>
         /// dataLabel control.
@@ -96,13 +87,13 @@ namespace NoleggioVeicoli.WebApplication
         protected global::System.Web.UI.WebControls.Label dataLabel;
 
         /// <summary>
-        /// txtDataImmatricolazione2 control.
+        /// txtDataImmatricolazioneInizio control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDataImmatricolazione2;
+        protected global::System.Web.UI.WebControls.TextBox txtDataImmatricolazioneInizio;
 
         /// <summary>
         /// btnDataA control.
@@ -114,13 +105,13 @@ namespace NoleggioVeicoli.WebApplication
         protected global::System.Web.UI.WebControls.Button btnDataA;
 
         /// <summary>
-        /// dataImmatricolazione2 control.
+        /// dataImmatricolazioneFine control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Calendar dataImmatricolazione2;
+        protected global::System.Web.UI.WebControls.Calendar dataImmatricolazioneFine;
 
         /// <summary>
         /// dataLabal2 control.
@@ -130,6 +121,15 @@ namespace NoleggioVeicoli.WebApplication
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label dataLabal2;
+
+        /// <summary>
+        /// txtDataImmatricolazioneFine control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtDataImmatricolazioneFine;
 
         /// <summary>
         /// ddlStatoNoleggio control.

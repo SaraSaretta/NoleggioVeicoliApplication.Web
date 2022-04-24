@@ -24,15 +24,6 @@ namespace NoleggioVeicoli.WebApplication
         protected global::System.Web.UI.WebControls.Panel pnlNonNoleggiato;
 
         /// <summary>
-        /// pnlHeadNonNoleggiato control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlHeadNonNoleggiato;
-
-        /// <summary>
         /// txtMarca control.
         /// </summary>
         /// <remarks>

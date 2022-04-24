@@ -14,10 +14,7 @@ namespace NoleggioVeicoli.WebApplication
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            pnlNonNoleggiato.BackColor = Color.White;
-            
-            pnlHeadNonNoleggiato.BackColor = Color.AliceBlue;
-            
+
 
             VeicoloManager veicoloManager = new VeicoloManager(Settings.Default.Safo2022);
 
@@ -27,16 +24,16 @@ namespace NoleggioVeicoli.WebApplication
             }
             int idVeicolo = Convert.ToInt32(Session["id"]);
 
-            var getVeicoloModel = veicoloManager.GetVeicolo(idVeicolo);
-            txtMarca.Text = getVeicoloModel.Marca;
-            txtModello.Text = getVeicoloModel.Modello;
-             txtTarga.Text=getVeicoloModel.Targa ;
+            //var getVeicoloModel = veicoloManager.GetVeicolo(idVeicolo);
+            //txtMarca.Text = getVeicoloModel.Marca;
+            //txtModello.Text = getVeicoloModel.Modello;
+            //txtTarga.Text=getVeicoloModel.Targa ;
 
         }
         protected void btnNoleggiaVeicolo_Click(object sender, EventArgs e)
         {
-            
-            
+
+
 
         }
     }

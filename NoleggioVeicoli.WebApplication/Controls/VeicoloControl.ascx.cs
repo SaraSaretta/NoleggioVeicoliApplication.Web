@@ -14,6 +14,29 @@ namespace NoleggioVeicoli.WebApplication.Controls
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (IsPostBack)
+            {
+                return;
+            }
+
+            VeicoloManager veicoloManager = new VeicoloManager(Properties.Settings.Default.Safo2022);
+
+            List<TipoAlimentazioneModel> tipoAlimentazioneList = veicoloManager.GetTipoAlimentazione();
+
+            ddlAlimentazione.DataSource = tipoAlimentazioneList;
+            ddlAlimentazione.DataValueField = "Id";
+            ddlAlimentazione.DataTextField = "Alimentazione";
+            ddlAlimentazione.DataBind();
+            ddlAlimentazione.Items.Insert(0, new ListItem("Seleziona", "-1"));
+
+            List<MarcaModel> marcaList = veicoloManager.GetMarcaList();
+
+            ddlMarca.DataSource = marcaList;
+            ddlMarca.DataValueField = "Id";
+            ddlMarca.DataTextField = "Marca";
+            ddlMarca.DataBind();
+            ddlMarca.Items.Insert(0, new ListItem("Seleziona", "-1"));
+
 
         }
 
@@ -22,17 +45,17 @@ namespace NoleggioVeicoli.WebApplication.Controls
         {
             public string Messaggio { get; set; }
             public int? IdVeicoloModificato { get; set; }
-           
+
         }
         public void SetVeicolo(int? id)
         {
             Session["id"] = id;
             var veicoloManager = new VeicoloManager(Settings.Default.Safo2022);
             var veicoloModel = veicoloManager.GetVeicolo(id);
-            txtMarca.Text = veicoloModel.Marca;
+            ddlMarca.SelectedValue = veicoloModel.IdMarca.ToString();
             txtModello.Text = veicoloModel.Modello;
             txtTarga.Text = veicoloModel.Targa;
-            txtAlimentazione.Text = veicoloModel.TipoAlimentazione;
+            ddlAlimentazione.SelectedValue = veicoloModel.IdTipoAlimentazione.ToString();
             txtStatoNoleggio.Text = veicoloModel.StatoNoleggio;
             txtDataImmatricolazione.Text = (veicoloModel.DataImmatricolazione).ToString();
             var formatoData = "dd/MM/yyyy";
@@ -43,16 +66,26 @@ namespace NoleggioVeicoli.WebApplication.Controls
             }
             txtDataImmatricolazione.Text = data;
             txtNote.Text = veicoloModel.Note;
+
+
         }
         protected void btnModifica_Click(object sender, EventArgs e)
         {
             var id = (int)Session["id"];
             var veicoloManager = new VeicoloManager(Settings.Default.Safo2022);
             var modificaVeicoloModel = veicoloManager.GetVeicolo(id);
-            modificaVeicoloModel.Marca = txtMarca.Text;
+            if (!int.TryParse(ddlMarca.SelectedValue, out int idMarca) || idMarca <= 0)
+            {
+                return;
+            }
+            modificaVeicoloModel.IdMarca = idMarca;
             modificaVeicoloModel.Modello = txtModello.Text;
             modificaVeicoloModel.Targa = txtTarga.Text;
-            modificaVeicoloModel.TipoAlimentazione = txtAlimentazione.Text;
+            if (!int.TryParse(ddlAlimentazione.SelectedValue, out int idTipoAlimentazione) || idTipoAlimentazione <= 0)
+            {
+                return;
+            }
+            modificaVeicoloModel.IdTipoAlimentazione = idTipoAlimentazione;
             modificaVeicoloModel.StatoNoleggio = txtStatoNoleggio.Text;
             DateTime dateTimeResult;
             var okParse = DateTime.TryParse(txtDataImmatricolazione.Text, out dateTimeResult);
@@ -86,9 +119,14 @@ namespace NoleggioVeicoli.WebApplication.Controls
                 var eventArgsPersonalizzato = new EventArgsPersonalizzato();
                 eventArgsPersonalizzato.Messaggio = "Il veicolo non può essere eliminato";
                 VeicoloModelUpdated(this, eventArgsPersonalizzato);
-               
+
 
             }
+        }
+
+        protected void btnGestisciNoleggio_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

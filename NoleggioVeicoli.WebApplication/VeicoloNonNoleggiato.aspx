@@ -3,39 +3,39 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-    <asp:panel class="panel panel-default" id="pnlNonNoleggiato" runat="server">
-        <asp:panel class="panel-heading" runat="server" ID="pnlHeadNonNoleggiato">
-            <h3 class="panel-title">Veicolo Non Noleggiato</h3>
-        </asp:panel>
-        <div class="panel-body">
+    <asp:Panel class="panel panel-default" ID="pnlNonNoleggiato" runat="server">
+        <div class="panel-heading" style="background-color: #4775d1">
+            <h3 class="panel-title" style="font-weight: bold">Veicolo Non Noleggiato</h3>
+        </div>
+        <div class="panel-body" style="background-color: #e6f0ff">
             <div class="form-group ">
-               <label for="txtMarca">Marca</label>
-               <asp:TextBox ID="txtMarca" runat="server" CssClass="form-control" ReadOnly="true">
-               </asp:TextBox>
+                <label for="txtMarca">Marca</label>
+                <asp:TextBox ID="txtMarca" runat="server" CssClass="form-control" ReadOnly="true">
+                </asp:TextBox>
             </div>
             <div class="form-group ">
                 <label for="txtModello">Modello</label>
-                <asp:TextBox runat="server" ID="txtModello" CssClass ="form-control" ReadOnly="true">
+                <asp:TextBox runat="server" ID="txtModello" CssClass="form-control" ReadOnly="true">
                 </asp:TextBox>
             </div>
-             <div class="form-group">
+            <div class="form-group">
                 <label for="txtTarga">Targa</label>
-                <asp:TextBox runat="server" ID="txtTarga" CssClass ="form-control" ReadOnly="true">
+                <asp:TextBox runat="server" ID="txtTarga" CssClass="form-control" ReadOnly="true">
                 </asp:TextBox>
             </div>
             <div class="row col-md-6">
                 <div class="form-group">
-                <label for="txtCliente">Cliente</label>
-                <asp:TextBox runat="server" ID="txtCliente" CssClass ="form-control">
-                </asp:TextBox>
+                    <label for="txtCliente">Cliente</label>
+                    <asp:TextBox runat="server" ID="txtCliente" CssClass="form-control" ReadOnly="false">
+                    </asp:TextBox>
+                </div>
+                <asp:Button runat="server" ID="btnNoleggiaVeicolo" Text="Noleggia Veicolo" CssClass="btn btn-default" OnClick="btnNoleggiaVeicolo_Click" />
+
             </div>
-            <asp:Button runat="server" ID="btnNoleggiaVeicolo" Text="Noleggia Veicolo" CssClass="btn btn-secondary" OnClick="btnNoleggiaVeicolo_Click"/>
+        </div>
 
-                </div>
-                </div>
-    
 
-    </asp:panel>
+    </asp:Panel>
 
 
 
