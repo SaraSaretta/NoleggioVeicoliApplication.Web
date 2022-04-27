@@ -32,6 +32,14 @@
                     <asp:DropDownList ID="ddlTipoAlimentazione" runat="server" CssClass="form-control">
                     </asp:DropDownList>
                 </div>
+                <div class="form-group ">
+                    <label for="ddlStatoNoleggio">Stato Noleggio</label>
+                    <asp:DropDownList ID="ddlStatoNoleggio" runat="server" CssClass="form-control">
+                        <asp:ListItem Value="Seleziona"> Seleziona </asp:ListItem>
+                        <asp:ListItem Value="Si"> Si </asp:ListItem>
+                        <asp:ListItem Value="No"> No </asp:ListItem>
+                    </asp:DropDownList>
+                </div>
             </div>
             <div class="row col-md-6">
                 <div class="form-group ">
@@ -103,14 +111,7 @@
                         </asp:TextBox>
                     </div>
                 </div>
-                <div class="form-group ">
-                    <label for="ddlStatoNoleggio">Stato Noleggio</label>
-                    <asp:DropDownList ID="ddlStatoNoleggio" runat="server" CssClass="form-control">
-                        <asp:ListItem Value="Seleziona"> Seleziona </asp:ListItem>
-                        <asp:ListItem Value="Si"> Si </asp:ListItem>
-                        <asp:ListItem Value="No"> No </asp:ListItem>
-                    </asp:DropDownList>
-                </div>
+
 
                 <asp:Button runat="server" ID="btnRicerca" Text="Ricerca" CssClass="btn btn-default" OnClick="btnRicerca_Click" />
                 <asp:Button ID="BtnClear" runat="server" Text="Risetta" CssClass="btn btn-default" OnClick="BtnClear_Click" />
@@ -120,11 +121,8 @@
     </div>
 
     <asp:GridView runat="server" ID="gvVeicolo" CssClass="table table table-bordered table-hover table-striped no-margin"
-        BorderStyle="None" AutoGenerateColumns="False" meta:resourcekey="gvDocumentiResource1" AutoGenerateSelectButton="true" DataKeyNames="Id" OnSelectedIndexChanged="gvVeicolo_SelectedIndexChanged">
+        BorderStyle="None" AutoGenerateColumns="False" meta:resourcekey="gvDocumentiResource1" DataKeyNames="Id" OnRowCommand="gvVeicolo_RowCommand">
         <Columns>
-            <asp:BoundField ItemStyle-Width="150px" DataField="Id" HeaderText="Id" Visible="false">
-                <HeaderStyle HorizontalAlign="Center" />
-            </asp:BoundField>
             <asp:BoundField ItemStyle-Width="150px" DataField="Marca" HeaderText="Marca">
                 <HeaderStyle HorizontalAlign="Center" />
             </asp:BoundField>
@@ -143,13 +141,10 @@
             <asp:BoundField ItemStyle-Width="150px" DataField="StatoNoleggio" HeaderText="StatoNoleggio">
                 <HeaderStyle HorizontalAlign="Center" />
             </asp:BoundField>
-            <%--<asp:TemplateField>
-                    <ItemTemplate>
-                        <asp:Button ID="btnDettaglio" runat="server" Text="Dettaglio"  DataField="Dettaglio" HeaderText="Dettaglio" CommandName="dettaglio" OnClick="btnDettaglio_Click" />
-                    </ItemTemplate>
-                    <HeaderStyle HorizontalAlign="Center" />
-                </asp:TemplateField>--%>
+            <asp:ButtonField ButtonType="Button" HeaderText="Dettaglio" Text="Dettaglio">
+                <HeaderStyle HorizontalAlign="Center" />
+            </asp:ButtonField>
         </Columns>
     </asp:GridView>
-    <%-- <vc:VeicoloControl ID="veicoloControl" runat="server" OnVeicoloModelUpdated="veicoloControl_VeicoloModelUpdated" />--%>
+
 </asp:Content>

@@ -109,38 +109,27 @@ namespace NoleggioVeicoli.WebApplication
         {
             // Cancello se già è pieno
             txtDataImmatricolazioneInizio.Text = "";
-
             // Scorri la raccolta SelectedDates e visualizza il file
             // date selezionate nel controllo Calendar.
             foreach (DateTime day in dataImmatricolazioneInizio.SelectedDates)
             {
                 txtDataImmatricolazioneInizio.Text += day.Date.ToShortDateString();
             }
-
         }
         protected void dataImmatricolazione2_SelectionChanged(object sender, EventArgs e)
         {
-
             txtDataImmatricolazioneFine.Text = "";
             foreach (DateTime day in dataImmatricolazioneFine.SelectedDates)
             {
                 txtDataImmatricolazioneFine.Text += day.Date.ToShortDateString();
             }
-
         }
-        protected void gvVeicolo_SelectedIndexChanged(object sender, EventArgs e)
+        protected void gvVeicolo_RowCommand(object sender, GridViewCommandEventArgs e)
         {
-            var idVeicolo = gvVeicolo.SelectedDataKey["Id"].ToString();
-            Session["id"] = idVeicolo;
+            int index = Convert.ToInt32(e.CommandArgument);
+            var Id = Convert.ToInt32(gvVeicolo.DataKeys[index].Value.ToString());
+            Session["Id"] = Id;
             Response.Redirect("DettaglioVeicolo.aspx");
         }
-        //protected void btnDettaglio_Click(object sender, EventArgs e)
-        //{
-        //    Button btn = (Button)sender;
-        //    var row = (GridViewRow)btn.Parent.Parent;
-        //    var id = int.Parse(row.Cells[0].Text);
-        //    Response.Redirect("DettaglioVeicolo.aspx?Id=" + id);
-        //}
-
     }
 }

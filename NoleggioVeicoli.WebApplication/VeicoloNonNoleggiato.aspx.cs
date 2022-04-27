@@ -1,5 +1,6 @@
 ﻿using NoleggioVeicoli.WebApplication.Properties;
 using NoleggioVeicoloApplication.Business.Managers;
+using NoleggioVeicoloApplication.Business.Models;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -15,25 +16,45 @@ namespace NoleggioVeicoli.WebApplication
         protected void Page_Load(object sender, EventArgs e)
         {
 
-
-            VeicoloManager veicoloManager = new VeicoloManager(Settings.Default.Safo2022);
-
             if (IsPostBack)
             {
                 return;
             }
+
             int idVeicolo = Convert.ToInt32(Session["id"]);
 
-            //var getVeicoloModel = veicoloManager.GetVeicolo(idVeicolo);
-            //txtMarca.Text = getVeicoloModel.Marca;
-            //txtModello.Text = getVeicoloModel.Modello;
-            //txtTarga.Text=getVeicoloModel.Targa ;
+            SetVeicoloNonNoleggiato(idVeicolo);
+        }
+        public void SetVeicoloNonNoleggiato(int? idVeicolo)
+        {
+            Session["id"] = idVeicolo;
 
+            var noleggioManager = new NoleggioManager(Properties.Settings.Default.Safo2022);
+            var noleggioModel = new NoleggioModel();
+            noleggioModel = noleggioManager.GetCliente(idVeicolo);
+
+            txtMarca.Text = noleggioModel.Marca;
+            txtModello.Text = noleggioModel.Modello;
+            txtTarga.Text = noleggioModel.Targa;
+            txtCliente.Text = noleggioModel.NomeCliente;
         }
         protected void btnNoleggiaVeicolo_Click(object sender, EventArgs e)
         {
+            var idVeicolo = (int)Session["id"];
+            var noleggioManager = new NoleggioManager(Settings.Default.Safo2022);
+            var noleggioModel = new NoleggioModel();
 
+            noleggioModel = noleggioManager.GetCliente(idVeicolo);
 
+            noleggioModel.Marca = txtMarca.Text;
+            noleggioModel.Modello = txtModello.Text;
+            noleggioModel.Targa = txtTarga.Text;
+            noleggioModel.NomeCliente = txtCliente.Text;
+
+            bool isClienteInserita = noleggioManager.InsertCliente(noleggioModel);
+            //infoControl.SetMessage(WebApplication.Controls.InfoControl.TipoMessaggio.Success, "Il Cliente è stato inserito correttamente");
+
+            bool isStatoNoleggioModificato = noleggioManager.UpdateStatoNoleggioCliente(noleggioModel);
 
         }
     }

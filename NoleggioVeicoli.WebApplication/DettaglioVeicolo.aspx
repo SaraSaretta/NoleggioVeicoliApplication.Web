@@ -8,7 +8,7 @@
     <uc:InfoControl runat="server" ID="infoControl" />
 
     <div class="panel panel-default">
-        <div class="panel-heading">
+        <div class="panel-heading" style="background-color: #e6f0ff">
             <asp:Button ID="btnIndietro" runat="server" Text="Indietro" OnClick="btnIndietro_Click" />
             <asp:Button ID="btnAvanti" runat="server" Text="Avanti" OnClick="btnAvant_Click" />
         </div>

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using NoleggioVeicoli.WebApplication.Properties;
+using NoleggioVeicoloApplication.Business.Managers;
+using NoleggioVeicoloApplication.Business.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,6 +14,46 @@ namespace NoleggioVeicoli.WebApplication
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (IsPostBack)
+            {
+                return;
+            }
+
+            int idVeicolo = Convert.ToInt32(Session["id"]);
+
+            SetVeicoloNoleggiato(idVeicolo);
+
+
+        }
+        public void SetVeicoloNoleggiato(int? idVeicolo)
+        {
+            Session["id"] = idVeicolo;
+
+            var noleggioManager = new NoleggioManager(Properties.Settings.Default.Safo2022);
+            var noleggioModel = new NoleggioModel();
+            noleggioModel = noleggioManager.GetCliente(idVeicolo);
+
+            txtMarca.Text = noleggioModel.Marca;
+            txtModello.Text = noleggioModel.Modello;
+            txtTarga.Text = noleggioModel.Targa;
+            txtCliente.Text = noleggioModel.NomeCliente;
+        }
+
+        protected void btnFineNoleggio_Click(object sender, EventArgs e)
+        {
+            var idVeicolo = (int)Session["id"];
+            var noleggioManager = new NoleggioManager(Settings.Default.Safo2022);
+            var noleggioModelUpdate = new NoleggioModel();
+            noleggioModelUpdate = noleggioManager.GetCliente(idVeicolo);
+
+            //noleggioModelUpdate.Marca = txtMarca.Text;
+            //noleggioModelUpdate.Modello = txtModello.Text;
+            //noleggioModelUpdate.Targa = txtTarga.Text;
+            //noleggioModelUpdate.NomeCliente = txtCliente.Text;
+
+            bool isClienteEliminato = noleggioManager.UpdateStatoNoleggioCliente(noleggioModelUpdate);
+            //bool isStatoNoleggioModificato = noleggioManager.UpdateStatoNoleggio(noleggioModelUpdate);
+
 
         }
     }

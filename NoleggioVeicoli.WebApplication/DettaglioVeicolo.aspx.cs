@@ -20,10 +20,10 @@ namespace NoleggioVeicoli.WebApplication
             {
                 return;
             }
-
+            
             int idVeicolo = Convert.ToInt32(Session["id"]);
             veicoloControl.SetVeicolo(idVeicolo);
-
+           
         }
         protected void btnIndietro_Click(object sender, EventArgs e)
         {
@@ -79,7 +79,6 @@ namespace NoleggioVeicoli.WebApplication
             //aggiorna dati pagina
             veicoloControl.SetVeicolo(veicoloSuccessivo.Id);
         }
-
         protected void veicoloControl_VeicoloModelUpdated(object sender, EventArgsPersonalizzato e)
         {
             if (e.Messaggio.Equals("Il veicolo è stato eliminato"))
@@ -93,7 +92,6 @@ namespace NoleggioVeicoli.WebApplication
             if (e.Messaggio.Equals("Il veicolo è stato modificato con successo!"))
             {
                 infoControl.SetMessage(WebApplication.Controls.InfoControl.TipoMessaggio.Success, e.Messaggio);
-
             }
         }
 

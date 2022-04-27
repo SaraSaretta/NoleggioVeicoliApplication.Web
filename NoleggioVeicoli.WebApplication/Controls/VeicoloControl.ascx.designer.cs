@@ -42,6 +42,33 @@ namespace NoleggioVeicoli.WebApplication.Controls
         protected global::System.Web.UI.WebControls.TextBox txtTarga;
 
         /// <summary>
+        /// btnData control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnData;
+
+        /// <summary>
+        /// dataImmatricolazione control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Calendar dataImmatricolazione;
+
+        /// <summary>
+        /// dataLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label dataLabel;
+
+        /// <summary>
         /// txtDataImmatricolazione control.
         /// </summary>
         /// <remarks>
@@ -76,6 +103,15 @@ namespace NoleggioVeicoli.WebApplication.Controls
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtNote;
+
+        /// <summary>
+        /// NomeCliente control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel NomeCliente;
 
         /// <summary>
         /// txtCliente control.

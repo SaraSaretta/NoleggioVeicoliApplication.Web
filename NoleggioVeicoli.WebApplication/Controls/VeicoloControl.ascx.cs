@@ -36,8 +36,7 @@ namespace NoleggioVeicoli.WebApplication.Controls
             ddlMarca.DataTextField = "Marca";
             ddlMarca.DataBind();
             ddlMarca.Items.Insert(0, new ListItem("Seleziona", "-1"));
-
-
+           
         }
 
         public event EventHandler<EventArgsPersonalizzato> VeicoloModelUpdated;
@@ -66,6 +65,18 @@ namespace NoleggioVeicoli.WebApplication.Controls
             }
             txtDataImmatricolazione.Text = data;
             txtNote.Text = veicoloModel.Note;
+            if (txtStatoNoleggio.Text.Equals("Si"))
+            {
+                
+                var noleggioManager = new NoleggioManager(Properties.Settings.Default.Safo2022);
+                var clienteModel = noleggioManager.GetCliente(id);
+                txtCliente.Text = clienteModel.NomeCliente;
+            }
+            else
+            {
+                NomeCliente.Visible = false;
+               
+            }
 
 
         }
@@ -126,7 +137,41 @@ namespace NoleggioVeicoli.WebApplication.Controls
 
         protected void btnGestisciNoleggio_Click(object sender, EventArgs e)
         {
+            if (txtStatoNoleggio.Text=="Si")
+            {
+                Response.Redirect("VeicoloNoleggiato.aspx");
 
+            }
+            else
+            {
+                Response.Redirect("VeicoloNonNoleggiato.aspx");
+
+            }
+
+        }
+
+        protected void btnData_Click(object sender, EventArgs e)
+        {
+            if (dataImmatricolazione.Visible == false)
+            {
+                dataImmatricolazione.Visible = true;
+            }
+            var veicoloModel = new VeicoloModel();
+            DateTime dateTimeResult;
+            var okParse = DateTime.TryParse(txtDataImmatricolazione.Text, out dateTimeResult);
+            if (okParse)
+            {
+                veicoloModel.DataImmatricolazione = dateTimeResult;
+            }
+        }
+
+        protected void dataImmatricolazione_SelectionChanged(object sender, EventArgs e)
+        {
+            txtDataImmatricolazione.Text = "";
+            foreach (DateTime day in dataImmatricolazione.SelectedDates)
+            {
+                txtDataImmatricolazione.Text += day.Date.ToShortDateString();
+            }
         }
     }
 }

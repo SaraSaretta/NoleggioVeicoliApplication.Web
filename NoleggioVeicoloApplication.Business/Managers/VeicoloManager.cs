@@ -270,7 +270,6 @@ namespace NoleggioVeicoloApplication.Business.Managers
             }
             return veicoloModelList;
         }
-
         public VeicoloModel GetVeicolo(int? id)
         {
             var veicoloModel = new VeicoloModel();
@@ -310,7 +309,7 @@ namespace NoleggioVeicoloApplication.Business.Managers
                             return null;
                         }
                         DataRow row = dataTable.Rows[0];
-                        veicoloModel.Id = row.Field<int>("id");
+                        veicoloModel.Id = row.Field<int>("Id");
                         veicoloModel.IdMarca = row.Field<int>("IdMarca");
                         veicoloModel.Marca = row.Field<string>("Marca");
                         veicoloModel.Modello = row.Field<string>("Modello");
@@ -420,54 +419,6 @@ namespace NoleggioVeicoloApplication.Business.Managers
                 {
                     sqlCommand.Parameters.AddWithValue("@Id", veicoloModel.Id);
 
-                    //if (veicoloModel.IdMarca > 0)
-                    //{
-                    //    sqlCommand.Parameters.AddWithValue("@IdMarca", veicoloModel.IdMarca);
-                    //}
-                    //else
-                    //{
-                    //    sqlCommand.Parameters.AddWithValue("@IdMarca", DBNull.Value);
-                    //}
-                    //if (string.IsNullOrEmpty(veicoloModel.Modello))
-                    //{
-                    //    sqlCommand.Parameters.AddWithValue("@Modello", DBNull.Value);
-                    //}
-                    //else
-                    //{
-                    //    sqlCommand.Parameters.AddWithValue("@Modello", veicoloModel.Modello);
-                    //}
-                    //if (string.IsNullOrEmpty(veicoloModel.Targa))
-                    //{
-                    //    sqlCommand.Parameters.AddWithValue("@Targa", DBNull.Value);
-                    //}
-                    //else
-                    //{
-                    //    sqlCommand.Parameters.AddWithValue("@Targa", veicoloModel.Targa);
-                    //}
-                    //if (veicoloModel.DataImmatricolazione.HasValue)
-                    //{
-                    //    sqlCommand.Parameters.AddWithValue("@DataImmatricolazione", veicoloModel.DataImmatricolazione);
-                    //}
-                    //else
-                    //{
-                    //    sqlCommand.Parameters.AddWithValue("@DataImmatricolazione", DBNull.Value);
-                    //}
-                    //if (veicoloModel.IdTipoAlimentazione > 0)
-                    //{
-                    //    sqlCommand.Parameters.AddWithValue("@IdAlimentazione", veicoloModel.IdTipoAlimentazione);
-                    //}
-                    //else
-                    //{
-                    //    sqlCommand.Parameters.AddWithValue("@IdAlimentazione", DBNull.Value);
-                    //}
-                    //if (string.IsNullOrEmpty(veicoloModel.Note))
-                    //{
-                    //    sqlCommand.Parameters.AddWithValue("@Note", DBNull.Value);
-                    //}
-                    //else
-                    //{
-                    //    sqlCommand.Parameters.AddWithValue("@Note", veicoloModel.Note);
-                    //}
                     var numRigheModificate = sqlCommand.ExecuteNonQuery();
                 }
 
@@ -509,7 +460,6 @@ namespace NoleggioVeicoloApplication.Business.Managers
             }
             return getTipoAlimentazioneModel;
         }
-
         public List<MarcaModel> GetMarcaList()
         {
             var getMarcaList = new List<MarcaModel>();
@@ -546,48 +496,46 @@ namespace NoleggioVeicoloApplication.Business.Managers
             }
             return getMarcaList;
         }
+        //public MarcaModel GetMarca(int? id)
+        //{
+        //    var marcaModel = new MarcaModel();
 
-        public MarcaModel GetMarca(int? id)
-        {
-            var marcaModel = new MarcaModel();
+        //    var sb = new StringBuilder();
+        //    sb.AppendLine("SELECT");
+        //    sb.AppendLine("SAVeicoli.[Id]");
+        //    sb.AppendLine(",[Modello]");
+        //    sb.AppendLine(",[Targa]");
+        //    sb.AppendLine(",[DataImmatricolazione]");
+        //    sb.AppendLine(",SAMarche.[Marca]");
+        //    sb.AppendLine("FROM [dbo].[SAVeicoli]");
+        //    sb.AppendLine("LEFT JOIN SAMarche on SAVeicoli.IdMarca=SAMarche.Id");
+        //    sb.AppendLine("WHERE SAVeicoli.Id=@Id");
 
-            var sb = new StringBuilder();
-            sb.AppendLine("SELECT");
-            sb.AppendLine("SAVeicoli.[Id]");
-            sb.AppendLine(",[Modello]");
-            sb.AppendLine(",[Targa]");
-            sb.AppendLine(",[DataImmatricolazione]");
-            sb.AppendLine(",SAMarche.[Marca]");
-            sb.AppendLine("FROM [dbo].[SAVeicoli]");
-            sb.AppendLine("LEFT JOIN SAMarche on SAVeicoli.IdMarca=SAMarche.Id");
-            sb.AppendLine("WHERE SAVeicoli.Id=@Id");
+        //    using (SqlConnection sqlConnection = new SqlConnection(this.ConnectionString))
+        //    {
+        //        sqlConnection.Open();
+        //        using (SqlCommand sqlCommand = new SqlCommand(sb.ToString()))
+        //        {
+        //            using (var sqlDataAdapter = new SqlDataAdapter(sqlCommand))
+        //            {
+        //                sqlCommand.Parameters.AddWithValue("@Id", id);
 
-            //var dataSet = new DataSet();
-            using (SqlConnection sqlConnection = new SqlConnection(this.ConnectionString))
-            {
-                sqlConnection.Open();
-                using (SqlCommand sqlCommand = new SqlCommand(sb.ToString()))
-                {
-                    using (var sqlDataAdapter = new SqlDataAdapter(sqlCommand))
-                    {
-                        sqlCommand.Parameters.AddWithValue("@Id", id);
-
-                        sqlDataAdapter.SelectCommand = sqlCommand;
-                        sqlDataAdapter.SelectCommand.Connection = sqlConnection;
-                        DataTable dataTable = new DataTable();
-                        sqlDataAdapter.Fill(dataTable);
-                        if (dataTable.Rows.Count == 0)
-                        {
-                            return null;
-                        }
-                        DataRow row = dataTable.Rows[0];
-                        marcaModel.Id = row.Field<int>("id");
-                        marcaModel.Marca = row.Field<string>("Marca");
-                    }
-                    return marcaModel;
-                }
-            }
-        }
+        //                sqlDataAdapter.SelectCommand = sqlCommand;
+        //                sqlDataAdapter.SelectCommand.Connection = sqlConnection;
+        //                DataTable dataTable = new DataTable();
+        //                sqlDataAdapter.Fill(dataTable);
+        //                if (dataTable.Rows.Count == 0)
+        //                {
+        //                    return null;
+        //                }
+        //                DataRow row = dataTable.Rows[0];
+        //                marcaModel.Id = row.Field<int>("id");
+        //                marcaModel.Marca = row.Field<string>("Marca");
+        //            }
+        //            return marcaModel;
+        //        }
+        //    }
+        //}
 
 
     }
