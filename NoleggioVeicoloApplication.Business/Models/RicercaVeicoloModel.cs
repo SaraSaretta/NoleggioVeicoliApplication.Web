@@ -14,7 +14,6 @@ namespace NoleggioVeicoloApplication.Business.Models
         public int? IdTipoAlimentazione { get; set; }
         public DateTime? DataImmatricolazioneInizio { get; set; }
         public DateTime? DataImmatricolazioneFine { get; set; }
-
         public string StatoNoleggio { get; set; }
     }
 }

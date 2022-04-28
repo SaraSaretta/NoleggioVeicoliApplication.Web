@@ -18,33 +18,26 @@ namespace NoleggioVeicoli.WebApplication.Controls
             {
                 return;
             }
-
             VeicoloManager veicoloManager = new VeicoloManager(Properties.Settings.Default.Safo2022);
 
             List<TipoAlimentazioneModel> tipoAlimentazioneList = veicoloManager.GetTipoAlimentazione();
-
             ddlAlimentazione.DataSource = tipoAlimentazioneList;
             ddlAlimentazione.DataValueField = "Id";
             ddlAlimentazione.DataTextField = "Alimentazione";
             ddlAlimentazione.DataBind();
             ddlAlimentazione.Items.Insert(0, new ListItem("Seleziona", "-1"));
 
-            List<MarcaModel> marcaList = veicoloManager.GetMarcaList();
-
+            List<MarcaModel> marcaList = SingletonManager.Instance.ListMarche;
             ddlMarca.DataSource = marcaList;
             ddlMarca.DataValueField = "Id";
             ddlMarca.DataTextField = "Marca";
             ddlMarca.DataBind();
             ddlMarca.Items.Insert(0, new ListItem("Seleziona", "-1"));
-           
         }
-
         public event EventHandler<EventArgsPersonalizzato> VeicoloModelUpdated;
         public class EventArgsPersonalizzato : EventArgs
         {
             public string Messaggio { get; set; }
-            public int? IdVeicoloModificato { get; set; }
-
         }
         public void SetVeicolo(int? id)
         {
@@ -67,7 +60,6 @@ namespace NoleggioVeicoli.WebApplication.Controls
             txtNote.Text = veicoloModel.Note;
             if (txtStatoNoleggio.Text.Equals("Si"))
             {
-                
                 var noleggioManager = new NoleggioManager(Properties.Settings.Default.Safo2022);
                 var clienteModel = noleggioManager.GetCliente(id);
                 txtCliente.Text = clienteModel.NomeCliente;
@@ -75,10 +67,7 @@ namespace NoleggioVeicoli.WebApplication.Controls
             else
             {
                 NomeCliente.Visible = false;
-               
             }
-
-
         }
         protected void btnModifica_Click(object sender, EventArgs e)
         {
@@ -105,7 +94,6 @@ namespace NoleggioVeicoli.WebApplication.Controls
                 modificaVeicoloModel.DataImmatricolazione = dateTimeResult;
             }
             modificaVeicoloModel.Note = txtNote.Text;
-
             var updateVeicoloModel = veicoloManager.UpdateVeicolo(modificaVeicoloModel);
             var eventArgsPersonalizzato = new EventArgsPersonalizzato();
             eventArgsPersonalizzato.Messaggio = "Il veicolo è stato modificato con successo!";
@@ -119,37 +107,29 @@ namespace NoleggioVeicoli.WebApplication.Controls
                 var veicoloManager = new VeicoloManager(Settings.Default.Safo2022);
                 var modificaVeicoloModel = veicoloManager.GetVeicolo(id);
 
-                var updateVeicoloMode = veicoloManager.DeleteVeicolo(modificaVeicoloModel);
+                var updateVeicoloModel = veicoloManager.DeleteVeicolo(modificaVeicoloModel);
                 var eventArgsPersonalizzato = new EventArgsPersonalizzato();
-                eventArgsPersonalizzato.Messaggio = "Il veicolo è stato eliminato";
+                eventArgsPersonalizzato.Messaggio = "Il veicolo è stato eliminato correttamente!";
                 VeicoloModelUpdated(this, eventArgsPersonalizzato);
-
             }
             else
             {
                 var eventArgsPersonalizzato = new EventArgsPersonalizzato();
-                eventArgsPersonalizzato.Messaggio = "Il veicolo non può essere eliminato";
+                eventArgsPersonalizzato.Messaggio = "ATTENZIONE! Il veicolo non può essere eliminato,perhcé è stato noleggiato!";
                 VeicoloModelUpdated(this, eventArgsPersonalizzato);
-
-
             }
         }
-
         protected void btnGestisciNoleggio_Click(object sender, EventArgs e)
         {
-            if (txtStatoNoleggio.Text=="Si")
+            if (txtStatoNoleggio.Text == "Si")
             {
                 Response.Redirect("VeicoloNoleggiato.aspx");
-
             }
             else
             {
                 Response.Redirect("VeicoloNonNoleggiato.aspx");
-
             }
-
         }
-
         protected void btnData_Click(object sender, EventArgs e)
         {
             if (dataImmatricolazione.Visible == false)
@@ -164,7 +144,6 @@ namespace NoleggioVeicoli.WebApplication.Controls
                 veicoloModel.DataImmatricolazione = dateTimeResult;
             }
         }
-
         protected void dataImmatricolazione_SelectionChanged(object sender, EventArgs e)
         {
             txtDataImmatricolazione.Text = "";

@@ -15,24 +15,19 @@ namespace NoleggioVeicoli.WebApplication
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
             if (IsPostBack)
             {
                 return;
             }
-
             int idVeicolo = Convert.ToInt32(Session["id"]);
-
             SetVeicoloNonNoleggiato(idVeicolo);
         }
         public void SetVeicoloNonNoleggiato(int? idVeicolo)
         {
             Session["id"] = idVeicolo;
-
             var noleggioManager = new NoleggioManager(Properties.Settings.Default.Safo2022);
             var noleggioModel = new NoleggioModel();
             noleggioModel = noleggioManager.GetCliente(idVeicolo);
-
             txtMarca.Text = noleggioModel.Marca;
             txtModello.Text = noleggioModel.Modello;
             txtTarga.Text = noleggioModel.Targa;
@@ -43,19 +38,12 @@ namespace NoleggioVeicoli.WebApplication
             var idVeicolo = (int)Session["id"];
             var noleggioManager = new NoleggioManager(Settings.Default.Safo2022);
             var noleggioModel = new NoleggioModel();
-
             noleggioModel = noleggioManager.GetCliente(idVeicolo);
-
-            noleggioModel.Marca = txtMarca.Text;
-            noleggioModel.Modello = txtModello.Text;
-            noleggioModel.Targa = txtTarga.Text;
             noleggioModel.NomeCliente = txtCliente.Text;
 
-            bool isClienteInserita = noleggioManager.InsertCliente(noleggioModel);
-            //infoControl.SetMessage(WebApplication.Controls.InfoControl.TipoMessaggio.Success, "Il Cliente è stato inserito correttamente");
-
-            bool isStatoNoleggioModificato = noleggioManager.UpdateStatoNoleggioCliente(noleggioModel);
-
+            bool isClienteInserito = noleggioManager.InsertCliente(noleggioModel);
+            infoControl.SetMessage(WebApplication.Controls.InfoControl.TipoMessaggio.Success, "Il Cliente è stato inserito con successo!");
+            bool isDatiNoleggioModificato = noleggioManager.UpdateNoleggio(noleggioModel);
         }
     }
 }

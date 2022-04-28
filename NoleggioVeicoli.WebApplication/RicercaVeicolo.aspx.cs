@@ -17,33 +17,29 @@ namespace NoleggioVeicoli.WebApplication
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            VeicoloManager veicoloManager = new VeicoloManager(Settings.Default.Safo2022);
 
             if (!this.IsPostBack)
             {
+                VeicoloManager veicoloManager = new VeicoloManager(Settings.Default.Safo2022);
 
                 List<TipoAlimentazioneModel> tipoAlimentazioneList = veicoloManager.GetTipoAlimentazione();
-
                 ddlTipoAlimentazione.DataSource = tipoAlimentazioneList;
                 ddlTipoAlimentazione.DataTextField = "Alimentazione";
                 ddlTipoAlimentazione.DataValueField = "Id";
                 ddlTipoAlimentazione.DataBind();
                 ddlTipoAlimentazione.Items.Insert(0, new ListItem("Seleziona", "-1"));
 
-                List<MarcaModel> marcaList = veicoloManager.GetMarcaList();
-
+                List<MarcaModel> marcaList = SingletonManager.Instance.ListMarche;
                 ddlMarca.DataSource = marcaList;
                 ddlMarca.DataTextField = "Marca";
                 ddlMarca.DataValueField = "Id";
                 ddlMarca.DataBind();
                 ddlMarca.Items.Insert(0, new ListItem("Seleziona", "-1"));
             }
-
         }
         protected void btnRicerca_Click(object sender, EventArgs e)
         {
             var ricercaVeicoloModel = new RicercaVeicoloModel();
-
             ricercaVeicoloModel.IdMarca = int.Parse(ddlMarca.SelectedValue);
             ricercaVeicoloModel.Modello = txtModello.Text;
             ricercaVeicoloModel.Targa = txtTarga.Text;
@@ -54,7 +50,6 @@ namespace NoleggioVeicoli.WebApplication
             {
                 ricercaVeicoloModel.DataImmatricolazioneInizio = dateTimeResult;
             }
-
             DateTime dateTimeResult2;
             var okParse2 = DateTime.TryParse(txtDataImmatricolazioneFine.Text, out dateTimeResult2);
             if (okParse2)
@@ -72,7 +67,6 @@ namespace NoleggioVeicoli.WebApplication
         }
         protected void btnDataDA_Click(object sender, EventArgs e)
         {
-
             if (dataImmatricolazioneInizio.Visible == false)
             {
                 dataImmatricolazioneInizio.Visible = true;
@@ -107,7 +101,7 @@ namespace NoleggioVeicoli.WebApplication
         }
         protected void dataImmatricolazione_SelectionChanged(object sender, EventArgs e)
         {
-            // Cancello se già è pieno
+
             txtDataImmatricolazioneInizio.Text = "";
             // Scorri la raccolta SelectedDates e visualizza il file
             // date selezionate nel controllo Calendar.

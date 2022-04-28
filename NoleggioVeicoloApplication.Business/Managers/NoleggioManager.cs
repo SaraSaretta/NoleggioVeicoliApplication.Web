@@ -14,15 +14,12 @@ namespace NoleggioVeicoloApplication.Business.Managers
         public NoleggioManager(string connectionString)
         {
             this.ConnectionString = connectionString;
-
         }
         public string ConnectionString { get; set; }
         public NoleggioModel GetCliente(int? id)
         {
             var noleggioModel = new NoleggioModel();
-
             var sb = new StringBuilder();
-        
             sb.AppendLine("SELECT");
             sb.AppendLine("SAVeicoli.[Id]");
             sb.AppendLine(",SAClienti.[IdVeicolo]");
@@ -34,8 +31,8 @@ namespace NoleggioVeicoloApplication.Business.Managers
             sb.AppendLine(",SAVeicoli.[IdCliente]");
             sb.AppendLine(",SAVeicoli.[StatoNoleggio]");
             sb.AppendLine("FROM [dbo].[SAVeicoli]");
-            sb.AppendLine("LEFT JOIN SAClienti on SAVeicoli.Id=SAClienti.IdVeicolo");
-            sb.AppendLine("LEFT JOIN SAMarche on SAVeicoli.IdMarca=SAMarche.Id");
+            sb.AppendLine("LEFT JOIN SAClienti ON SAVeicoli.Id=SAClienti.IdVeicolo AND SAVeicoli.IdCliente=SAClienti.Id");
+            sb.AppendLine("LEFT JOIN SAMarche ON SAVeicoli.IdMarca=SAMarche.Id");
             sb.AppendLine("WHERE SAVeicoli.Id=@Id");
 
             using (SqlConnection sqlConnection = new SqlConnection(this.ConnectionString))
@@ -62,9 +59,7 @@ namespace NoleggioVeicoloApplication.Business.Managers
                         noleggioModel.Targa = row.Field<string>("Targa");
                         noleggioModel.StatoNoleggio = row.Field<string>("StatoNoleggio");
                         noleggioModel.NomeCliente = row.Field<string>("NomeCliente");
-                        //noleggioModel.IdCliente = row.Field<int>("IdCliente");
-
-
+                        noleggioModel.IdCliente = row.Field<int?>("IdCliente");
                     }
                     return noleggioModel;
                 }
@@ -73,6 +68,7 @@ namespace NoleggioVeicoloApplication.Business.Managers
         public bool InsertCliente(NoleggioModel noleggioModel)
         {
             bool isInserito = false;
+            int? idInserito = null;
             var sb = new StringBuilder();
             sb.AppendLine("INSERT INTO [dbo].[SAClienti] (");
             sb.AppendLine("[IdVeicolo]");
@@ -81,13 +77,13 @@ namespace NoleggioVeicoloApplication.Business.Managers
             sb.AppendLine("@IdVeicolo");
             sb.AppendLine(",@NomeCliente");
             sb.AppendLine(")");
+            sb.AppendLine(" SELECT SCOPE_IDENTITY()");
 
             using (SqlConnection sqlConnection = new SqlConnection(this.ConnectionString))
             {
                 sqlConnection.Open();
                 using (SqlCommand sqlCommand = new SqlCommand(sb.ToString(), sqlConnection))
                 {
-
                     if (noleggioModel.IdVeicolo > 0)
                     {
                         sqlCommand.Parameters.AddWithValue("@IdVeicolo", noleggioModel.IdVeicolo);
@@ -104,23 +100,24 @@ namespace NoleggioVeicoloApplication.Business.Managers
                     {
                         sqlCommand.Parameters.AddWithValue("@NomeCliente", DBNull.Value);
                     }
-
-                    var numRigheInserite = sqlCommand.ExecuteNonQuery();
+                    object value = sqlCommand.ExecuteScalar();
+                    if (value != null && value != DBNull.Value)
+                    {
+                        idInserito = Convert.ToInt32(value);
+                        noleggioModel.IdCliente = idInserito.Value;
+                    }
                 }
             }
-            return isInserito;
+            return isInserito; ;
         }
-        public bool UpdateStatoNoleggioCliente(NoleggioModel noleggioModel)
+        public bool UpdateNoleggio(NoleggioModel noleggioModel)
         {
-            bool isUpdate = false;
+
             var sb = new StringBuilder();
             sb.AppendLine("UPDATE [dbo].[SAVeicoli] ");
             sb.AppendLine("SET");
-            sb.AppendLine("[SAVeicoli].[IdCliente]=[SAClienti].[Id]");
+            sb.AppendLine("IdCliente=@IdCliente");
             sb.AppendLine(",StatoNoleggio=@StatoNoleggio");
-            sb.AppendLine("FROM [SAVeicoli]");
-            sb.AppendLine("INNER JOIN SAClienti");
-            sb.AppendLine("ON SAVeicoli.Id=SAClienti.IdVeicolo");
             sb.AppendLine("WHERE SAVeicoli.Id=@Id");
 
             using (SqlConnection sqlConnection = new SqlConnection(this.ConnectionString))
@@ -128,34 +125,55 @@ namespace NoleggioVeicoloApplication.Business.Managers
                 sqlConnection.Open();
                 using (SqlCommand sqlCommand = new SqlCommand(sb.ToString(), sqlConnection))
                 {
-                    
-                    sqlCommand.Parameters.AddWithValue("@Id",noleggioModel.IdVeicolo);
-                    //sqlCommand.Parameters.AddWithValue("@StatoNoleggio", noleggioModel.StatoNoleggio.Equals("No"));
+                    string statoNoleggio = noleggioModel.StatoNoleggio == "Si" ? "No" : "Si";
 
-
-                    if (noleggioModel.StatoNoleggio.Equals("Si"))
+                    sqlCommand.Parameters.AddWithValue("@Id", noleggioModel.IdVeicolo);
+                    sqlCommand.Parameters.AddWithValue("@StatoNoleggio", statoNoleggio);
+                    if (noleggioModel.StatoNoleggio == "No")
                     {
-                        sqlCommand.Parameters.AddWithValue("@StatoNoleggio", noleggioModel.StatoNoleggio.Equals("No"));
+                        if (noleggioModel.IdCliente.HasValue)
+                        {
+                            sqlCommand.Parameters.AddWithValue("@IdCliente", noleggioModel.IdCliente);
+                        }
+                        else
+                        {
+                            sqlCommand.Parameters.AddWithValue("@IdCliente", DBNull.Value);
+                        }
                     }
                     else
                     {
-                        sqlCommand.Parameters.AddWithValue("@StatoNoleggio", noleggioModel.StatoNoleggio.Equals("Si"));
+                        if (noleggioModel.IdCliente.HasValue)
+                        {
+                            sqlCommand.Parameters.AddWithValue("@IdCliente", DBNull.Value);
+                        }
+                        else
+                        {
+                            sqlCommand.Parameters.AddWithValue("@IdCliente", noleggioModel.IdCliente);
+                        }
                     }
-                    if (noleggioModel.IdCliente > 0)
-                    {
-                        sqlCommand.Parameters.AddWithValue("@IdCliente", DBNull.Value);
-                    }
-                    else
-                    {
-                        sqlCommand.Parameters.AddWithValue("@IdCliente", noleggioModel.StatoNoleggio);
-                    }
-
                     var numRigheModificate = sqlCommand.ExecuteNonQuery();
                 }
-
             }
-            return isUpdate;
+            return true;
         }
-       
+        public bool DeleteCliente(NoleggioModel noleggioModel)
+        {
+            bool isDelete = false;
+            var sb = new StringBuilder();
+            sb.AppendLine("Delete");
+            sb.AppendLine("FROM [dbo].[SAClienti]");
+            sb.AppendLine("WHERE Id=@Id");
+
+            using (SqlConnection sqlConnection = new SqlConnection(this.ConnectionString))
+            {
+                sqlConnection.Open();
+                using (SqlCommand sqlCommand = new SqlCommand(sb.ToString(), sqlConnection))
+                {
+                    sqlCommand.Parameters.AddWithValue("@Id", noleggioModel.IdCliente);
+                    var numRigheModificate = sqlCommand.ExecuteNonQuery();
+                }
+            }
+            return isDelete;
+        }
     }
 }

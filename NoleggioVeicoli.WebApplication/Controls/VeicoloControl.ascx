@@ -52,7 +52,6 @@
                 <asp:TextBox runat="server" ID="txtDataImmatricolazione" CssClass="form-control">
                 </asp:TextBox>
             </div>
-
         </div>
         <div class="row col-md-6">
             <div class="form-group">
@@ -77,7 +76,6 @@
                     </asp:TextBox>
                 </div>
             </asp:Panel>
-
             <asp:Button runat="server" ID="btnModifica" Text="Salva Modifica" CssClass="btn btn-default" OnClick="btnModifica_Click" />
             <asp:Button runat="server" ID="btnDelete" Text="Elimina Veicolo" CssClass="btn btn-default" OnClick="btnDelete_Click" />
             <asp:Button runat="server" ID="btnGestisciNoleggio" Text="Gestisci Noleggio" CssClass="btn btn-default" OnClick="btnGestisciNoleggio_Click" />

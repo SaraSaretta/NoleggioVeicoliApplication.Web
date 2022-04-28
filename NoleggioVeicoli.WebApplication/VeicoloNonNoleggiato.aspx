@@ -1,6 +1,9 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="VeicoloNonNoleggiato.aspx.cs" Inherits="NoleggioVeicoli.WebApplication.VeicoloNonNoleggiato" %>
 
+<%@ Register Src="~/Controls/InfoControl.ascx" TagPrefix="uc" TagName="Info" %>
+
 <asp:Content ID="VNNoleggiato" ContentPlaceHolderID="MainContent" runat="server">
+    <uc:Info runat="server" ID="infoControl" />
 
     <div class="panel-heading" style="background-color: #4775d1">
         <h3 class="panel-title" style="font-weight: bold">Veicolo Non Noleggiato</h3>
@@ -28,7 +31,6 @@
                 </asp:TextBox>
             </div>
             <asp:Button runat="server" ID="btnNoleggiaVeicolo" Text="Noleggia Veicolo" CssClass="btn btn-default" OnClick="btnNoleggiaVeicolo_Click" />
-
         </div>
     </div>
 

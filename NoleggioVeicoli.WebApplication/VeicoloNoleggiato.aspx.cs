@@ -18,12 +18,8 @@ namespace NoleggioVeicoli.WebApplication
             {
                 return;
             }
-
             int idVeicolo = Convert.ToInt32(Session["id"]);
-
             SetVeicoloNoleggiato(idVeicolo);
-
-
         }
         public void SetVeicoloNoleggiato(int? idVeicolo)
         {
@@ -32,29 +28,21 @@ namespace NoleggioVeicoli.WebApplication
             var noleggioManager = new NoleggioManager(Properties.Settings.Default.Safo2022);
             var noleggioModel = new NoleggioModel();
             noleggioModel = noleggioManager.GetCliente(idVeicolo);
-
             txtMarca.Text = noleggioModel.Marca;
             txtModello.Text = noleggioModel.Modello;
             txtTarga.Text = noleggioModel.Targa;
             txtCliente.Text = noleggioModel.NomeCliente;
         }
-
         protected void btnFineNoleggio_Click(object sender, EventArgs e)
         {
             var idVeicolo = (int)Session["id"];
             var noleggioManager = new NoleggioManager(Settings.Default.Safo2022);
             var noleggioModelUpdate = new NoleggioModel();
             noleggioModelUpdate = noleggioManager.GetCliente(idVeicolo);
+            bool isClienteEliminato = noleggioManager.UpdateNoleggio(noleggioModelUpdate);
+            var updateClienteModel = noleggioManager.DeleteCliente(noleggioModelUpdate);
 
-            //noleggioModelUpdate.Marca = txtMarca.Text;
-            //noleggioModelUpdate.Modello = txtModello.Text;
-            //noleggioModelUpdate.Targa = txtTarga.Text;
-            //noleggioModelUpdate.NomeCliente = txtCliente.Text;
-
-            bool isClienteEliminato = noleggioManager.UpdateStatoNoleggioCliente(noleggioModelUpdate);
-            //bool isStatoNoleggioModificato = noleggioManager.UpdateStatoNoleggio(noleggioModelUpdate);
-
-
+            infoControl.SetMessage(WebApplication.Controls.InfoControl.TipoMessaggio.Success, "Il Cliente è stato eliminato correttamente!");
         }
     }
 }

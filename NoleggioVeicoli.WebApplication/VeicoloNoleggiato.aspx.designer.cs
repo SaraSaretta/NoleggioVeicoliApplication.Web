@@ -15,6 +15,15 @@ namespace NoleggioVeicoli.WebApplication
     {
 
         /// <summary>
+        /// infoControl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::NoleggioVeicoli.WebApplication.Controls.InfoControl infoControl;
+
+        /// <summary>
         /// txtMarca control.
         /// </summary>
         /// <remarks>

@@ -15,13 +15,11 @@ namespace NoleggioVeicoli.WebApplication
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
             if (!IsPostBack)
             {
                 VeicoloManager veicoloManager = new VeicoloManager(Properties.Settings.Default.Safo2022);
 
                 List<TipoAlimentazioneModel> tipoAlimentazioneList = veicoloManager.GetTipoAlimentazione();
-
                 ddlAlimentazione.DataSource = tipoAlimentazioneList;
                 ddlAlimentazione.DataValueField = "Id";
                 ddlAlimentazione.DataTextField = "Alimentazione";
@@ -29,7 +27,6 @@ namespace NoleggioVeicoli.WebApplication
                 ddlAlimentazione.Items.Insert(0, new ListItem("Seleziona", "-1"));
 
                 List<MarcaModel> marcaList = SingletonManager.Instance.ListMarche;
-
                 ddlMarca.DataSource = marcaList;
                 ddlMarca.DataValueField = "Id";
                 ddlMarca.DataTextField = "Marca";
@@ -63,8 +60,7 @@ namespace NoleggioVeicoli.WebApplication
                 veicoloModel.Note = txtNote.Text;
 
                 bool isVeicoloInserita = veicoloManager.InsertVeicolo(veicoloModel);
-                infoControl.SetMessage(WebApplication.Controls.InfoControl.TipoMessaggio.Success, "Il veicolo è stato inserito correttamente");
-
+                infoControl.SetMessage(WebApplication.Controls.InfoControl.TipoMessaggio.Success, "Il veicolo è stato inserito con successo!");
             }
         }
         private bool IsFormValido()

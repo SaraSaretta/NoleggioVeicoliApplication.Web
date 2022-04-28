@@ -35,8 +35,6 @@ namespace NoleggioVeicoloApplication.Business.Managers
             sb.AppendLine("FROM [dbo].[SAVeicoli] LEFT JOIN SATipoAlimentazione on SAVeicoli.IdAlimentazione=SATipoAlimentazione.Id");
             sb.AppendLine("\tLEFT JOIN SAMarche on SAVeicoli.IdMarca=SAMarche.Id");
 
-
-            var dataSet = new DataSet();
             using (SqlConnection sqlConnection = new SqlConnection(this.ConnectionString))
             {
                 sqlConnection.Open();
@@ -46,13 +44,17 @@ namespace NoleggioVeicoloApplication.Business.Managers
                     {
                         sqlDataAdapter.SelectCommand = sqlCommand;
                         sqlDataAdapter.SelectCommand.Connection = sqlConnection;
-                        sqlDataAdapter.Fill(dataSet);
-
-                        var dataTable = dataSet.Tables[0];
+                        DataTable dataTable = new DataTable();
+                        sqlDataAdapter.Fill(dataTable);
+                        if (dataTable.Rows.Count == 0)
+                        {
+                            return null;
+                        }
+                        DataRow row = dataTable.Rows[0];
                         foreach (DataRow dataRow in dataTable.Rows)
                         {
                             var veicoloModel = new VeicoloModel();
-                           
+
                             veicoloModel.Id = dataRow.Field<int>("Id");
                             veicoloModel.IdMarca = dataRow.Field<int>("IdMarca");
                             veicoloModel.Modello = dataRow.Field<string>("Modello");
@@ -60,15 +62,14 @@ namespace NoleggioVeicoloApplication.Business.Managers
                             veicoloModel.IdTipoAlimentazione = dataRow.Field<int>("IdAlimentazione");
                             veicoloModel.DataImmatricolazione = dataRow.Field<DateTime?>("DataImmatricolazione");
                             veicoloModel.Note = dataRow.Field<string>("Note");
-                            
-                           
+
+
                             veicoloModelList.Add(veicoloModel);
                         }
                     }
                 }
             }
             return veicoloModelList;
-
         }
         public bool InsertVeicolo(Models.VeicoloModel veicoloModel)
         {
@@ -97,8 +98,8 @@ namespace NoleggioVeicoloApplication.Business.Managers
                 sqlConnection.Open();
                 using (SqlCommand sqlCommand = new SqlCommand(sb.ToString(), sqlConnection))
                 {
-                    
-                    if (veicoloModel.IdMarca>0)
+
+                    if (veicoloModel.IdMarca > 0)
                     {
                         sqlCommand.Parameters.AddWithValue("@IdMarca", veicoloModel.IdMarca);
                     }
@@ -114,7 +115,6 @@ namespace NoleggioVeicoloApplication.Business.Managers
                     {
                         sqlCommand.Parameters.AddWithValue("@Modello", veicoloModel.Modello);
                     }
-
                     if (string.IsNullOrEmpty(veicoloModel.Targa))
                     {
                         sqlCommand.Parameters.AddWithValue("@Targa", DBNull.Value);
@@ -131,8 +131,7 @@ namespace NoleggioVeicoloApplication.Business.Managers
                     {
                         sqlCommand.Parameters.AddWithValue("@DataImmatricolazione", DBNull.Value);
                     }
-
-                    if (veicoloModel.IdTipoAlimentazione>0)
+                    if (veicoloModel.IdTipoAlimentazione > 0)
                     {
                         sqlCommand.Parameters.AddWithValue("@IdAlimentazione", veicoloModel.IdTipoAlimentazione);
                     }
@@ -148,7 +147,6 @@ namespace NoleggioVeicoloApplication.Business.Managers
                     {
                         sqlCommand.Parameters.AddWithValue("@StatoNoleggio", veicoloModel.StatoNoleggio);
                     }
-
                     if (string.IsNullOrEmpty(veicoloModel.Note))
                     {
                         sqlCommand.Parameters.AddWithValue("@Note", DBNull.Value);
@@ -157,16 +155,14 @@ namespace NoleggioVeicoloApplication.Business.Managers
                     {
                         sqlCommand.Parameters.AddWithValue("@Note", veicoloModel.Note);
                     }
-
                     var numRigheInserite = sqlCommand.ExecuteNonQuery();
                 }
             }
             return isInserito;
         }
-
         public List<VeicoloModel> RicercaVeicolo(Models.RicercaVeicoloModel ricercaVeicoloModel)
         {
-            
+
             var veicoloModelList = new List<VeicoloModel>();
             var sb = new StringBuilder();
             sb.AppendLine("SELECT");
@@ -184,11 +180,11 @@ namespace NoleggioVeicoloApplication.Business.Managers
 
             if (ricercaVeicoloModel.IdMarca >= 0)
             {
-                sb.AppendLine("AND IdMarca=@IdMarca ");
+                sb.AppendLine("AND IdMarca=@IdMarca");
             }
             if (!string.IsNullOrEmpty(ricercaVeicoloModel.Modello))
             {
-                sb.AppendLine("AND Modello LIKE  '%' +@Modello +'%'");
+                sb.AppendLine("AND Modello LIKE  '%' +@Modello +'%' ");
             }
             if (!string.IsNullOrEmpty(ricercaVeicoloModel.Targa))
             {
@@ -196,21 +192,21 @@ namespace NoleggioVeicoloApplication.Business.Managers
             }
             if (ricercaVeicoloModel.IdTipoAlimentazione >= 0)
             {
-                sb.AppendLine("AND IdAlimentazione=@IdAlimentazione ");
+                sb.AppendLine("AND IdAlimentazione=@IdAlimentazione");
             }
-            if (!string.IsNullOrEmpty(ricercaVeicoloModel.StatoNoleggio)&&((ricercaVeicoloModel.StatoNoleggio.Equals("Si")|| (ricercaVeicoloModel.StatoNoleggio.Equals("No")))))
+            if (!string.IsNullOrEmpty(ricercaVeicoloModel.StatoNoleggio) && ((ricercaVeicoloModel.StatoNoleggio.Equals("Si") || (ricercaVeicoloModel.StatoNoleggio.Equals("No")))))
             {
                 sb.AppendLine("And StatoNoleggio = @StatoNoleggio");
             }
             if (ricercaVeicoloModel.DataImmatricolazioneInizio.HasValue)
             {
-                sb.AppendLine("AND DataImmatricolazione >=@DataImmatricolazioneInizio " );
+                sb.AppendLine("AND DataImmatricolazione >=@DataImmatricolazioneInizio");
             }
             if (ricercaVeicoloModel.DataImmatricolazioneFine.HasValue)
             {
-                sb.AppendLine("AND DataImmatricolazione <=@DataImmatricolazioneFine ");
+                sb.AppendLine("AND DataImmatricolazione <=@DataImmatricolazioneFine");
             }
-            var dataSet = new DataSet();
+
             using (SqlConnection sqlConnection = new SqlConnection(this.ConnectionString))
             {
                 sqlConnection.Open();
@@ -244,14 +240,18 @@ namespace NoleggioVeicoloApplication.Business.Managers
                     {
                         sqlCommand.Parameters.AddWithValue("@StatoNoleggio", ricercaVeicoloModel.StatoNoleggio);
                     }
-                   
+
                     using (var sqlDataAdapter = new SqlDataAdapter(sqlCommand))
                     {
                         sqlDataAdapter.SelectCommand = sqlCommand;
                         sqlDataAdapter.SelectCommand.Connection = sqlConnection;
-                        sqlDataAdapter.Fill(dataSet);
-
-                        var dataTable = dataSet.Tables[0];
+                        DataTable dataTable = new DataTable();
+                        sqlDataAdapter.Fill(dataTable);
+                        if (dataTable.Rows.Count == 0)
+                        {
+                            return null;
+                        }
+                        DataRow row = dataTable.Rows[0];
                         foreach (DataRow dataRow in dataTable.Rows)
                         {
                             var veicoloModel = new VeicoloModel();
@@ -345,8 +345,8 @@ namespace NoleggioVeicoloApplication.Business.Managers
                 using (SqlCommand sqlCommand = new SqlCommand(sb.ToString(), sqlConnection))
                 {
                     sqlCommand.Parameters.AddWithValue("@Id", veicoloModel.Id);
-                    
-                    if (veicoloModel.IdMarca>0)
+
+                    if (veicoloModel.IdMarca > 0)
                     {
                         sqlCommand.Parameters.AddWithValue("@IdMarca", veicoloModel.IdMarca);
                     }
@@ -369,7 +369,6 @@ namespace NoleggioVeicoloApplication.Business.Managers
                     else
                     {
                         sqlCommand.Parameters.AddWithValue("@Targa", DBNull.Value);
-
                     }
                     if (veicoloModel.DataImmatricolazione.HasValue)
                     {
@@ -379,7 +378,7 @@ namespace NoleggioVeicoloApplication.Business.Managers
                     {
                         sqlCommand.Parameters.AddWithValue("@DataImmatricolazione", DBNull.Value);
                     }
-                    if (veicoloModel.IdTipoAlimentazione>0)
+                    if (veicoloModel.IdTipoAlimentazione > 0)
                     {
                         sqlCommand.Parameters.AddWithValue("@IdAlimentazione", veicoloModel.IdTipoAlimentazione);
                     }
@@ -390,27 +389,23 @@ namespace NoleggioVeicoloApplication.Business.Managers
                     if (!string.IsNullOrEmpty(veicoloModel.Note))
                     {
                         sqlCommand.Parameters.AddWithValue("@Note", veicoloModel.Note);
-
                     }
                     else
                     {
                         sqlCommand.Parameters.AddWithValue("@Note", DBNull.Value);
-
                     }
                     var numRigheModificate = sqlCommand.ExecuteNonQuery();
                 }
-
             }
             return isUpdate;
         }
         public bool DeleteVeicolo(VeicoloModel veicoloModel)
         {
-            bool isUpdate = false;
+            bool isDelete = false;
             var sb = new StringBuilder();
             sb.AppendLine("Delete");
             sb.AppendLine("FROM [dbo].[SAVeicoli]");
             sb.AppendLine("WHERE Id=@Id");
-            
 
             using (SqlConnection sqlConnection = new SqlConnection(this.ConnectionString))
             {
@@ -418,12 +413,10 @@ namespace NoleggioVeicoloApplication.Business.Managers
                 using (SqlCommand sqlCommand = new SqlCommand(sb.ToString(), sqlConnection))
                 {
                     sqlCommand.Parameters.AddWithValue("@Id", veicoloModel.Id);
-
                     var numRigheModificate = sqlCommand.ExecuteNonQuery();
                 }
-
             }
-            return isUpdate;
+            return isDelete;
         }
         public List<TipoAlimentazioneModel> GetTipoAlimentazione()
         {
@@ -434,7 +427,6 @@ namespace NoleggioVeicoloApplication.Business.Managers
             sb.AppendLine(",[Alimentazione]");
             sb.AppendLine("FROM [dbo].[SATipoAlimentazione]");
 
-            var dataSet = new DataSet();
             using (SqlConnection sqlConnection = new SqlConnection(this.ConnectionString))
             {
                 sqlConnection.Open();
@@ -444,9 +436,13 @@ namespace NoleggioVeicoloApplication.Business.Managers
                     {
                         sqlDataAdapter.SelectCommand = sqlCommand;
                         sqlDataAdapter.SelectCommand.Connection = sqlConnection;
-                        sqlDataAdapter.Fill(dataSet);
-
-                        var dataTable = dataSet.Tables[0];
+                        DataTable dataTable = new DataTable();
+                        sqlDataAdapter.Fill(dataTable);
+                        if (dataTable.Rows.Count == 0)
+                        {
+                            return null;
+                        }
+                        DataRow row = dataTable.Rows[0];
                         foreach (DataRow dataRow in dataTable.Rows)
                         {
                             var tipoAlimentazioneModel = new TipoAlimentazioneModel();
@@ -469,8 +465,8 @@ namespace NoleggioVeicoloApplication.Business.Managers
             sb.AppendLine(",[Marca]");
             sb.AppendLine("FROM [dbo].[SAMarche]");
             sb.AppendLine("ORDER BY [Marca]");
-           
-            var dataSet = new DataSet();
+
+
             using (SqlConnection sqlConnection = new SqlConnection(this.ConnectionString))
             {
                 sqlConnection.Open();
@@ -480,9 +476,13 @@ namespace NoleggioVeicoloApplication.Business.Managers
                     {
                         sqlDataAdapter.SelectCommand = sqlCommand;
                         sqlDataAdapter.SelectCommand.Connection = sqlConnection;
-                        sqlDataAdapter.Fill(dataSet);
-
-                        var dataTable = dataSet.Tables[0];
+                        DataTable dataTable = new DataTable();
+                        sqlDataAdapter.Fill(dataTable);
+                        if (dataTable.Rows.Count == 0)
+                        {
+                            return null;
+                        }
+                        DataRow row = dataTable.Rows[0];
                         foreach (DataRow dataRow in dataTable.Rows)
                         {
                             var marcaModel = new MarcaModel();
@@ -496,48 +496,6 @@ namespace NoleggioVeicoloApplication.Business.Managers
             }
             return getMarcaList;
         }
-        //public MarcaModel GetMarca(int? id)
-        //{
-        //    var marcaModel = new MarcaModel();
-
-        //    var sb = new StringBuilder();
-        //    sb.AppendLine("SELECT");
-        //    sb.AppendLine("SAVeicoli.[Id]");
-        //    sb.AppendLine(",[Modello]");
-        //    sb.AppendLine(",[Targa]");
-        //    sb.AppendLine(",[DataImmatricolazione]");
-        //    sb.AppendLine(",SAMarche.[Marca]");
-        //    sb.AppendLine("FROM [dbo].[SAVeicoli]");
-        //    sb.AppendLine("LEFT JOIN SAMarche on SAVeicoli.IdMarca=SAMarche.Id");
-        //    sb.AppendLine("WHERE SAVeicoli.Id=@Id");
-
-        //    using (SqlConnection sqlConnection = new SqlConnection(this.ConnectionString))
-        //    {
-        //        sqlConnection.Open();
-        //        using (SqlCommand sqlCommand = new SqlCommand(sb.ToString()))
-        //        {
-        //            using (var sqlDataAdapter = new SqlDataAdapter(sqlCommand))
-        //            {
-        //                sqlCommand.Parameters.AddWithValue("@Id", id);
-
-        //                sqlDataAdapter.SelectCommand = sqlCommand;
-        //                sqlDataAdapter.SelectCommand.Connection = sqlConnection;
-        //                DataTable dataTable = new DataTable();
-        //                sqlDataAdapter.Fill(dataTable);
-        //                if (dataTable.Rows.Count == 0)
-        //                {
-        //                    return null;
-        //                }
-        //                DataRow row = dataTable.Rows[0];
-        //                marcaModel.Id = row.Field<int>("id");
-        //                marcaModel.Marca = row.Field<string>("Marca");
-        //            }
-        //            return marcaModel;
-        //        }
-        //    }
-        //}
-
-
     }
 }
 

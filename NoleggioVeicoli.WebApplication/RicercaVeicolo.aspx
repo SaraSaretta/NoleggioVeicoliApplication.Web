@@ -44,7 +44,6 @@
             <div class="row col-md-6">
                 <div class="form-group ">
                     <label for="txtDataImmatricolazioneInizio">Data Di Immatricolazione</label>
-
                     <div class="form-group">
                         <p>Da:</p>
                         <asp:Button runat="server" ID="btnDataDA" Text="..." CssClass="btn btn-default" OnClick="btnDataDA_Click" />
@@ -61,7 +60,6 @@
                                     e.Cell.Controls.Add(new LiteralControl());
                             }
                         </script>
-
                         <asp:Calendar ID="dataImmatricolazioneInizio" BorderWidth="1px" NextPrevFormat="FullMonth" Width="280px" Height="190px" BorderColor="Gray"
                             OnDayRender="DayRender" Visible="false" OnSelectionChanged="dataImmatricolazione_SelectionChanged"
                             runat="server">
@@ -92,7 +90,6 @@
                                     e.Cell.BackColor = System.Drawing.Color.White;
                                 if (e.Day.Date.Day == 18)
                                     e.Cell.Controls.Add(new LiteralControl());
-
                             }
                         </script>
                         <asp:Calendar ID="dataImmatricolazioneFine" BorderWidth="1px" NextPrevFormat="FullMonth" Width="280px" Height="190px" BorderColor="Gray"
@@ -111,17 +108,13 @@
                         </asp:TextBox>
                     </div>
                 </div>
-
-
                 <asp:Button runat="server" ID="btnRicerca" Text="Ricerca" CssClass="btn btn-default" OnClick="btnRicerca_Click" />
                 <asp:Button ID="BtnClear" runat="server" Text="Risetta" CssClass="btn btn-default" OnClick="BtnClear_Click" />
-
             </div>
         </div>
     </div>
-
     <asp:GridView runat="server" ID="gvVeicolo" CssClass="table table table-bordered table-hover table-striped no-margin"
-        BorderStyle="None" AutoGenerateColumns="False" meta:resourcekey="gvDocumentiResource1" DataKeyNames="Id" OnRowCommand="gvVeicolo_RowCommand">
+        BorderStyle="None" AutoGenerateColumns="False" meta:resourcekey="gvDocumentiResource1" DataKeyNames="Id" OnRowCommand="gvVeicolo_RowCommand"  AllowPaging="true" PageSize="5">
         <Columns>
             <asp:BoundField ItemStyle-Width="150px" DataField="Marca" HeaderText="Marca">
                 <HeaderStyle HorizontalAlign="Center" />

@@ -31,7 +31,6 @@ namespace NoleggioVeicoli.WebApplication.Controls
                     break;
             }
             literalMessaggio.Text = messaggio;
-
         }
         public enum TipoMessaggio
         {
