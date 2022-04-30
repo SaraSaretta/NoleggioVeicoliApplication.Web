@@ -31,6 +31,7 @@
                 </asp:TextBox>
             </div>
             <asp:Button runat="server" ID="btnNoleggiaVeicolo" Text="Noleggia Veicolo" CssClass="btn btn-default" OnClick="btnNoleggiaVeicolo_Click" />
+            <asp:Button runat="server" ID="btnRegistraCliente" Text="Registra Nuovo Cliente" CssClass="btn btn-default" OnClick="btnRegistraCliente_Click" />
         </div>
     </div>
 

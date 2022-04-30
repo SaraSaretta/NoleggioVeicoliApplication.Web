@@ -61,7 +61,7 @@ namespace NoleggioVeicoli.WebApplication.Controls
             if (txtStatoNoleggio.Text.Equals("Si"))
             {
                 var noleggioManager = new NoleggioManager(Properties.Settings.Default.Safo2022);
-                var clienteModel = noleggioManager.GetCliente(id);
+                var clienteModel = noleggioManager.GetNoleggio(id);
                 txtCliente.Text = clienteModel.NomeCliente;
             }
             else

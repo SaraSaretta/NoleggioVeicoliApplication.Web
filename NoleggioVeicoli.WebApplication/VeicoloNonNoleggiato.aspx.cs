@@ -27,7 +27,7 @@ namespace NoleggioVeicoli.WebApplication
             Session["id"] = idVeicolo;
             var noleggioManager = new NoleggioManager(Properties.Settings.Default.Safo2022);
             var noleggioModel = new NoleggioModel();
-            noleggioModel = noleggioManager.GetCliente(idVeicolo);
+            noleggioModel = noleggioManager.GetNoleggio(idVeicolo);
             txtMarca.Text = noleggioModel.Marca;
             txtModello.Text = noleggioModel.Modello;
             txtTarga.Text = noleggioModel.Targa;
@@ -38,12 +38,16 @@ namespace NoleggioVeicoli.WebApplication
             var idVeicolo = (int)Session["id"];
             var noleggioManager = new NoleggioManager(Settings.Default.Safo2022);
             var noleggioModel = new NoleggioModel();
-            noleggioModel = noleggioManager.GetCliente(idVeicolo);
+            noleggioModel = noleggioManager.GetNoleggio(idVeicolo);
             noleggioModel.NomeCliente = txtCliente.Text;
 
-            bool isClienteInserito = noleggioManager.InsertCliente(noleggioModel);
-            infoControl.SetMessage(WebApplication.Controls.InfoControl.TipoMessaggio.Success, "Il Cliente è stato inserito con successo!");
-            bool isDatiNoleggioModificato = noleggioManager.UpdateNoleggio(noleggioModel);
+            bool isClienteInserito = noleggioManager.InsertNoleggio(noleggioModel);
+            infoControl.SetMessage(WebApplication.Controls.InfoControl.TipoMessaggio.Success, "Il veicolo è stato noleggiato con successo!");
+            bool isDatiNoleggioModificati = noleggioManager.UpdateNoleggio(noleggioModel);
+        }
+        protected void btnRegistraCliente_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("NuovoCliente.aspx");
         }
     }
 }

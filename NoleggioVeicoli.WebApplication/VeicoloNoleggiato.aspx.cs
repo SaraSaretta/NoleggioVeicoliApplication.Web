@@ -27,7 +27,7 @@ namespace NoleggioVeicoli.WebApplication
 
             var noleggioManager = new NoleggioManager(Properties.Settings.Default.Safo2022);
             var noleggioModel = new NoleggioModel();
-            noleggioModel = noleggioManager.GetCliente(idVeicolo);
+            noleggioModel = noleggioManager.GetNoleggio(idVeicolo);
             txtMarca.Text = noleggioModel.Marca;
             txtModello.Text = noleggioModel.Modello;
             txtTarga.Text = noleggioModel.Targa;
@@ -38,11 +38,11 @@ namespace NoleggioVeicoli.WebApplication
             var idVeicolo = (int)Session["id"];
             var noleggioManager = new NoleggioManager(Settings.Default.Safo2022);
             var noleggioModelUpdate = new NoleggioModel();
-            noleggioModelUpdate = noleggioManager.GetCliente(idVeicolo);
-            bool isClienteEliminato = noleggioManager.UpdateNoleggio(noleggioModelUpdate);
-            var updateClienteModel = noleggioManager.DeleteCliente(noleggioModelUpdate);
+            noleggioModelUpdate = noleggioManager.GetNoleggio(idVeicolo);
+            bool isNoleggioEliminato = noleggioManager.UpdateNoleggio(noleggioModelUpdate);
+            bool isClienteEliminato = noleggioManager.DeleteNoleggio(noleggioModelUpdate);
 
-            infoControl.SetMessage(WebApplication.Controls.InfoControl.TipoMessaggio.Success, "Il Cliente è stato eliminato correttamente!");
+            infoControl.SetMessage(WebApplication.Controls.InfoControl.TipoMessaggio.Success, "Il Noleggio è stato eliminato correttamente!");
         }
     }
 }

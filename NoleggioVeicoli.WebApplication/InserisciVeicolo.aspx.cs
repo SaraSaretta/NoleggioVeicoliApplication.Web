@@ -24,14 +24,14 @@ namespace NoleggioVeicoli.WebApplication
                 ddlAlimentazione.DataValueField = "Id";
                 ddlAlimentazione.DataTextField = "Alimentazione";
                 ddlAlimentazione.DataBind();
-                ddlAlimentazione.Items.Insert(0, new ListItem("Seleziona", "-1"));
+                ddlAlimentazione.Items.Insert(0, new ListItem("Seleziona Tipo Alimentazione", "-1"));
 
                 List<MarcaModel> marcaList = SingletonManager.Instance.ListMarche;
                 ddlMarca.DataSource = marcaList;
                 ddlMarca.DataValueField = "Id";
                 ddlMarca.DataTextField = "Marca";
                 ddlMarca.DataBind();
-                ddlMarca.Items.Insert(0, new ListItem("Seleziona", "-1"));
+                ddlMarca.Items.Insert(0, new ListItem("Seleziona Marca", "-1"));
             }
         }
         protected void btnInserisci_Click(object sender, EventArgs e)

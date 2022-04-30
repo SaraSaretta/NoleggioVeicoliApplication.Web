@@ -3,7 +3,7 @@
 <%@ Register Src="~/Controls/InfoControl.ascx" TagName="Info" TagPrefix="uc" %>
 <%@ Register Src="~/Controls/VeicoloControl.ascx" TagName="VeicoloControl" TagPrefix="vc" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+<asp:Content ID="Ricerca" ContentPlaceHolderID="MainContent" runat="server">
     <uc:Info runat="server" ID="infoControl" />
 
     <div class="panel panel-default">
@@ -35,7 +35,7 @@
                 <div class="form-group ">
                     <label for="ddlStatoNoleggio">Stato Noleggio</label>
                     <asp:DropDownList ID="ddlStatoNoleggio" runat="server" CssClass="form-control">
-                        <asp:ListItem Value="Seleziona"> Seleziona </asp:ListItem>
+                        <asp:ListItem Value="Seleziona"> Seleziona Stato Noleggio </asp:ListItem>
                         <asp:ListItem Value="Si"> Si </asp:ListItem>
                         <asp:ListItem Value="No"> No </asp:ListItem>
                     </asp:DropDownList>
@@ -114,8 +114,11 @@
         </div>
     </div>
     <asp:GridView runat="server" ID="gvVeicolo" CssClass="table table table-bordered table-hover table-striped no-margin"
-        BorderStyle="None" AutoGenerateColumns="False" meta:resourcekey="gvDocumentiResource1" DataKeyNames="Id" OnRowCommand="gvVeicolo_RowCommand"  AllowPaging="true" PageSize="5">
+        BorderStyle="None" AutoGenerateColumns="False" meta:resourcekey="gvDocumentiResource1" DataKeyNames="Id" OnRowCommand="gvVeicolo_RowCommand">
         <Columns>
+            <asp:BoundField ItemStyle-Width="150px" DataField="Id" HeaderText="Id" Visible="false">
+                <HeaderStyle HorizontalAlign="Center" />
+            </asp:BoundField>
             <asp:BoundField ItemStyle-Width="150px" DataField="Marca" HeaderText="Marca">
                 <HeaderStyle HorizontalAlign="Center" />
             </asp:BoundField>

@@ -41,9 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Managers\ClienteManager.cs" />
     <Compile Include="Managers\NoleggioManager.cs" />
     <Compile Include="Managers\SingletonManager.cs" />
     <Compile Include="Managers\VeicoloManager.cs" />
+    <Compile Include="Models\ClienteModel.cs" />
     <Compile Include="Models\MarcaModel.cs" />
     <Compile Include="Models\NoleggioModel.cs" />
     <Compile Include="Models\RicercaVeicoloModel.cs" />
