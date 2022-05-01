@@ -18,58 +18,6 @@ namespace NoleggioVeicoloApplication.Business.Managers
         }
         public string ConnectionString { get; set; }
 
-        public List<VeicoloModel> GetVeicoloList()
-        {
-            var veicoloModelList = new List<VeicoloModel>();
-            var sb = new StringBuilder();
-            sb.AppendLine("SELECT");
-            sb.AppendLine("\tSAVeicoli.[Id]");
-            sb.AppendLine("\t,SAVeicoli.[Modello]");
-            sb.AppendLine("\t,SAVeicoli.[Targa]");
-            sb.AppendLine("\t,SAVeicoli.[DataImmatricolazione]");
-            sb.AppendLine("\t,SAVeicoli.[Note]");
-            sb.AppendLine("\t,SATipoAlimentazione.[Alimentazione]");
-            sb.AppendLine("\t,SAVeicoli.[IdAlimentazione]");
-            sb.AppendLine("\t,SAMarche.[Marca]");
-            sb.AppendLine("\t,SAVeicoli.[IdMarca]");
-            sb.AppendLine("FROM [dbo].[SAVeicoli] LEFT JOIN SATipoAlimentazione on SAVeicoli.IdAlimentazione=SATipoAlimentazione.Id");
-            sb.AppendLine("\tLEFT JOIN SAMarche on SAVeicoli.IdMarca=SAMarche.Id");
-
-            using (SqlConnection sqlConnection = new SqlConnection(this.ConnectionString))
-            {
-                sqlConnection.Open();
-                using (SqlCommand sqlCommand = new SqlCommand(sb.ToString()))
-                {
-                    using (var sqlDataAdapter = new SqlDataAdapter(sqlCommand))
-                    {
-                        sqlDataAdapter.SelectCommand = sqlCommand;
-                        sqlDataAdapter.SelectCommand.Connection = sqlConnection;
-                        DataTable dataTable = new DataTable();
-                        sqlDataAdapter.Fill(dataTable);
-                        if (dataTable.Rows.Count == 0)
-                        {
-                            return null;
-                        }
-                        DataRow row = dataTable.Rows[0];
-                        foreach (DataRow dataRow in dataTable.Rows)
-                        {
-                            var veicoloModel = new VeicoloModel();
-
-                            veicoloModel.Id = dataRow.Field<int>("Id");
-                            veicoloModel.IdMarca = dataRow.Field<int>("IdMarca");
-                            veicoloModel.Modello = dataRow.Field<string>("Modello");
-                            veicoloModel.Targa = dataRow.Field<string>("Targa");
-                            veicoloModel.IdTipoAlimentazione = dataRow.Field<int>("IdAlimentazione");
-                            veicoloModel.DataImmatricolazione = dataRow.Field<DateTime?>("DataImmatricolazione");
-                            veicoloModel.Note = dataRow.Field<string>("Note");
-
-                            veicoloModelList.Add(veicoloModel);
-                        }
-                    }
-                }
-            }
-            return veicoloModelList;
-        }
         public bool InsertVeicolo(Models.VeicoloModel veicoloModel)
         {
             bool isInserito = false;
@@ -292,55 +240,13 @@ namespace NoleggioVeicoloApplication.Business.Managers
                 using (SqlCommand sqlCommand = new SqlCommand(sb.ToString(), sqlConnection))
                 {
                     sqlCommand.Parameters.AddWithValue("@Id", veicoloModel.Id);
+                    sqlCommand.Parameters.AddWithValue("@IdMarca", veicoloModel.IdMarca);
+                    sqlCommand.Parameters.AddWithValue("@Modello", veicoloModel.Modello);
+                    sqlCommand.Parameters.AddWithValue("@Targa", veicoloModel.Targa);
+                    sqlCommand.Parameters.AddWithValue("@DataImmatricolazione", veicoloModel.DataImmatricolazione);
+                    sqlCommand.Parameters.AddWithValue("@IdAlimentazione", veicoloModel.IdTipoAlimentazione);
+                    sqlCommand.Parameters.AddWithValue("@Note", veicoloModel.Note);
 
-                    if (veicoloModel.IdMarca > 0)
-                    {
-                        sqlCommand.Parameters.AddWithValue("@IdMarca", veicoloModel.IdMarca);
-                    }
-                    else
-                    {
-                        sqlCommand.Parameters.AddWithValue("@IdMarca", DBNull.Value);
-                    }
-                    if (!string.IsNullOrEmpty(veicoloModel.Modello))
-                    {
-                        sqlCommand.Parameters.AddWithValue("@Modello", veicoloModel.Modello);
-                    }
-                    else
-                    {
-                        sqlCommand.Parameters.AddWithValue("@Modello", DBNull.Value);
-                    }
-                    if (!string.IsNullOrEmpty(veicoloModel.Targa))
-                    {
-                        sqlCommand.Parameters.AddWithValue("@Targa", veicoloModel.Targa);
-                    }
-                    else
-                    {
-                        sqlCommand.Parameters.AddWithValue("@Targa", DBNull.Value);
-                    }
-                    if (veicoloModel.DataImmatricolazione.HasValue)
-                    {
-                        sqlCommand.Parameters.AddWithValue("@DataImmatricolazione", veicoloModel.DataImmatricolazione);
-                    }
-                    else
-                    {
-                        sqlCommand.Parameters.AddWithValue("@DataImmatricolazione", DBNull.Value);
-                    }
-                    if (veicoloModel.IdTipoAlimentazione > 0)
-                    {
-                        sqlCommand.Parameters.AddWithValue("@IdAlimentazione", veicoloModel.IdTipoAlimentazione);
-                    }
-                    else
-                    {
-                        sqlCommand.Parameters.AddWithValue("@IdAlimentazione", DBNull.Value);
-                    }
-                    if (!string.IsNullOrEmpty(veicoloModel.Note))
-                    {
-                        sqlCommand.Parameters.AddWithValue("@Note", veicoloModel.Note);
-                    }
-                    else
-                    {
-                        sqlCommand.Parameters.AddWithValue("@Note", DBNull.Value);
-                    }
                     var numRigheModificate = sqlCommand.ExecuteNonQuery();
                 }
             }

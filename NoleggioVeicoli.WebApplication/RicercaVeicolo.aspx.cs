@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -17,7 +18,6 @@ namespace NoleggioVeicoli.WebApplication
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
             if (!IsPostBack)
             {
                 VeicoloManager veicoloManager = new VeicoloManager(Settings.Default.Safo2022);
@@ -102,8 +102,6 @@ namespace NoleggioVeicoli.WebApplication
         protected void dataImmatricolazione_SelectionChanged(object sender, EventArgs e)
         {
             txtDataImmatricolazioneInizio.Text = "";
-            // Scorri la raccolta SelectedDates e visualizza il file
-            // date selezionate nel controllo Calendar.
             foreach (DateTime day in dataImmatricolazioneInizio.SelectedDates)
             {
                 txtDataImmatricolazioneInizio.Text += day.Date.ToString("dd/MM/yyyy");

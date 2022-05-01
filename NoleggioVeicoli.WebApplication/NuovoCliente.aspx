@@ -4,6 +4,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <uc:Info runat="server" ID="infoControl" />
+
     <div class="panel panel-default">
         <div class="panel-heading" style="background-color: #4775d1">
             <h3 class="panel-title" style="font-weight: bold">Nuovo Cliente</h3>

@@ -47,7 +47,7 @@ namespace NoleggioVeicoli.WebApplication
             {
                 btnIndietro.Enabled = true;
             }
-            //aggiorna dati pagina
+            //aggiorna dati di pagina
             veicoloControl.SetVeicolo(veicoloPrecedente.Id);
         }
         protected void btnAvant_Click(object sender, EventArgs e)
@@ -74,7 +74,7 @@ namespace NoleggioVeicoli.WebApplication
             {
                 btnAvanti.Enabled = true;
             }
-            //aggiorna dati pagina
+            //aggiorna dati di pagina
             veicoloControl.SetVeicolo(veicoloSuccessivo.Id);
         }
         protected void veicoloControl_VeicoloModelUpdated(object sender, EventArgsPersonalizzato e)

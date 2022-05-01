@@ -41,7 +41,6 @@ namespace NoleggioVeicoloApplication.Business.Managers
                 {
                     sqlCommand.Parameters.AddWithValue("@NomeCliente", clienteModel.NomeCliente);
 
-
                     if (!string.IsNullOrEmpty(clienteModel.CodiceFiscale))
                     {
                         sqlCommand.Parameters.AddWithValue("@CodiceFiscale", clienteModel.CodiceFiscale);
@@ -114,7 +113,6 @@ namespace NoleggioVeicoloApplication.Business.Managers
                     {
                         sqlCommand.Parameters.AddWithValue("@Indirizzo", DBNull.Value);
                     }
-
                     var numRigheModificate = sqlCommand.ExecuteNonQuery();
                 }
             }

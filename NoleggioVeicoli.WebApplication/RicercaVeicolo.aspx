@@ -50,12 +50,9 @@
                         <script language="C#" runat="server">
                             void DayRender(Object source, DayRenderEventArgs e)
                             {
-                                // Change the background color of the days in the month
-                                // to yellow.
                                 if (!e.Day.IsOtherMonth && !e.Day.IsWeekend)
                                     e.Cell.BackColor = System.Drawing.Color.White;
 
-                                //// Add custom text to cell in the Calendar control.
                                 if (e.Day.Date.Day == 18)
                                     e.Cell.Controls.Add(new LiteralControl());
                             }

@@ -13,14 +13,10 @@ namespace NoleggioVeicoli.WebApplication
         {
 
         }
-
         protected void btnInserisci_Click(object sender, EventArgs e)
         {
             Response.Redirect("InserisciVeicolo.aspx");
         }
-
-      
-
         protected void btnRicerca_Click(object sender, EventArgs e)
         {
             Response.Redirect("RicercaVeicolo.aspx");

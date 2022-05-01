@@ -2,7 +2,6 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
-
     <div class="panel panel-default">
         <div class="container-fluid">
             <div class="jumbotron text-center" style="background-color: #4775d1">

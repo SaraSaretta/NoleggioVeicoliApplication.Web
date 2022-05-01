@@ -4,6 +4,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <uc:Info runat="server" ID="infoControl" />
+
     <div class="panel panel-default">
         <div class="panel-heading" style="background-color: #4775d1">
             <h3 class="panel-title" style="font-weight: bold">Inserisci Veicolo</h3>
@@ -48,7 +49,7 @@
                         }
                     </script>
                     <asp:Calendar ID="dataImmatricolazione" BorderWidth="1px" NextPrevFormat="FullMonth" Width="280px" Height="190px" BorderColor="Gray" OnSelectionChanged="dataImmatricolazione_SelectionChanged"
-                        OnDayRender="DayRender" 
+                        OnDayRender="DayRender"
                         runat="server" Visible="false">
                         <TodayDayStyle BackColor="#CCCCCC"></TodayDayStyle>
                         <NextPrevStyle Font-Size="8pt" Font-Bold="True" ForeColor="#333333" VerticalAlign="Bottom"></NextPrevStyle>
@@ -67,7 +68,7 @@
                     <label for="ddlStatoNoleggio">Stato Noleggio</label>
                     <asp:DropDownList ID="ddlStatoNoleggio" runat="server" CssClass="form-control">
                         <asp:ListItem Value="Si"> Si </asp:ListItem>
-                        <asp:ListItem  Value="No" Selected="True"> No </asp:ListItem>
+                        <asp:ListItem Value="No" Selected="True"> No </asp:ListItem>
                     </asp:DropDownList>
                 </div>
                 <div class="form-group ">

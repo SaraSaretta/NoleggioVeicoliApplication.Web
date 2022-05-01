@@ -84,22 +84,10 @@ namespace NoleggioVeicoloApplication.Business.Managers
                 sqlConnection.Open();
                 using (SqlCommand sqlCommand = new SqlCommand(sb.ToString(), sqlConnection))
                 {
-                    if (noleggioModel.IdVeicolo > 0)
-                    {
+                   
                         sqlCommand.Parameters.AddWithValue("@IdVeicolo", noleggioModel.IdVeicolo);
-                    }
-                    else
-                    {
-                        sqlCommand.Parameters.AddWithValue("@IdVeicolo", DBNull.Value);
-                    }
-                    if (!string.IsNullOrEmpty(noleggioModel.NomeCliente))
-                    {
                         sqlCommand.Parameters.AddWithValue("@NomeCliente", noleggioModel.NomeCliente);
-                    }
-                    else
-                    {
-                        sqlCommand.Parameters.AddWithValue("@NomeCliente", DBNull.Value);
-                    }
+                  
                     object value = sqlCommand.ExecuteScalar();
                     if (value != null && value != DBNull.Value)
                     {
